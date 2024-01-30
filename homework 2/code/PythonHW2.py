@@ -15,6 +15,9 @@ import seaborn as sns
 import statsmodels.api as sm
 from scipy import stats
 import csv
+from scipy.optimize import minimize
+import statsmodels.api as sm
+
 
 # Set working directories and seed
 
@@ -129,4 +132,30 @@ XY = np.dot(tr_X,Y)
 
 print (β )
 
+#### I need to correct this part and add b also. 
+# c. Estimate β using statsmodels
+
+ols = sm.OLS(data['electricity'],sm.add_constant(data.drop('electricity',axis = 1))).fit()
+betaols = ols.params.to_numpy() # save estimated parameters
+params, = np.shape(betaols) # save number of estimated parameters
+nobs3 = int(ols.nobs)
+
+## Format estimates and confidence intervals
+betaols = np.round(betaols,2)
+
+## Get output in order
+order = [1,2,0]
+output = pd.DataFrame(np.column_stack([betaols])).reindex(order)
+
+## Row and column names
+rownames = pd.concat([pd.Series(['electricity','sqft','retrofit', 'temp','Constant','Observations']),pd.Series([' ',' ',' ',' ',' '])],axis = 1).stack() # Note this stacks an empty list to make room for CIs
+colnames = ['Estimates']
+
+## Append CIs, # Observations, row and column names
+output = pd.DataFrame(pd.concat([output.stack(),pd.Series(nobs3)]))
+output.index = rownames
+output.columns = colnames
+
+## Output directly to LaTeX
+output.to_latex(outputpath + '/table/statsmodel.tex',column_format='lccc',escape=False)
 
