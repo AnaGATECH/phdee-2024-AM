@@ -30,17 +30,23 @@ colorlinks=true,
 \textbf{Note:} \textit{I asked Afi to help me with the Python code only. That's why I will follow similar steps as he did with small modifications. }
 
 \subsection*{Question 1.1}
+\textbf{Response:} Randomization worked which is demonstrated by comparison across control and treatment groups that indicates statistical balance in observables. Column 3 presents the differences in means and the standard errors of the differences in brackets. The differences are small and in case of electricity consumption statistically significant.
 
-
+\begin{table}[ht]
+    \centering
+    \input{homework 2/output/table/SummaryTablePy}
+    \caption{Summary Statistics for the treated and control groups.}
+    \label{tab:my_label}
+\end{table}
 
 
 \subsection*{Question 1.2}
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[scale = 0.7]{}
+    \includegraphics[scale = 0.7]{homework 2/output/figure/densityplotpy.pdf}
     \caption{Kernel density plots of the electricity use for treated group and control group.}
-    \label{fig:samplehist}
+    \label{fig:hist}
 \end{figure}
 
 \subsection*{Question 1.3}
@@ -63,6 +69,7 @@ colorlinks=true,
     \centering
     \includegraphics[scale = 0.7]{homework 2/output/figure/scatterplot.pdf}
     \caption{Scatterplot with electricity consumption and square feet of home}
+      \label{fig:scatter}
 \end{figure}
 
 \subsection*{Question 2.3}
@@ -70,6 +77,7 @@ colorlinks=true,
     \centering
     \input{homework 2/output/table/robustOLS}
     \caption{OLS regression results using Stata}
+     \label{tab:my_label}
   \end{table}
 
 
