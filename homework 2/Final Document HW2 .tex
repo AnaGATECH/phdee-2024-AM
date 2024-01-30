@@ -1,0 +1,61 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage[letterpaper, portrait, margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{titlesec}
+
+\hypersetup{
+colorlinks=true,
+    linkcolor=black,
+    filecolor=black,      
+    urlcolor=blue,
+    citecolor=black,
+}
+
+  
+\title{Economics 7103 - Homework 2}
+\author{Ana Mazmishvili}
+\date{ January 29, 2024 }
+  
+\begin{document}
+  
+\maketitle 
+
+\section*{Python}
+
+\section*{Stata}
+
+\subsection*{Question 2.1}
+
+
+\begin{table}[ht]
+    \centering
+    \input{homework 2/output/table/summarystats}
+    \caption{Summary statistics produced using Stata}
+    \label{tab:my_label}
+\end{table}
+
+\subsection*{Question 2.2}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale = 0.7]{homework 2/output/figure/scatterplot.pdf}
+    \caption{Scatterplot with electricity consumption and square feet of home}
+\end{figure}
+
+\subsection*{Question 2.3}
+\begin{table}[ht]
+    \centering
+    \input{homework 2/output/table/robustOLS}
+    \caption{OLS regression results using Stata}
+  \end{table}
+
+
+
+
+\end{document}
