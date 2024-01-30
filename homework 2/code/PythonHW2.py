@@ -41,11 +41,12 @@ notreat=data.loc[data['retrofit']==0].drop('retrofit',axis=1)
 
 means_control = notreat.mean().map('{:.2f}'.format)
 stdev_control = notreat.std().map('{:.2f}'.format)
-nobs_control = pd.Series(notreat.count().min())
+nobs_control = pd.Series(notreat.count().min()).map('{:.0f}'.format)
+
 
 means_treatment = treat.mean().map('{:.2f}'.format)
 stdev_treatment = treat.std().map('{:.2f}'.format)
-nobs_treatment = pd.Series(treat.count().min())
+nobs_treatment = pd.Series(treat.count().min()).map('{:.0f}'.format)
 
 
 # Compute P-values and t-statistics
