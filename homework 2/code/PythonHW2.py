@@ -93,6 +93,39 @@ plt.savefig(outputpath + '/figure/densityplotpy.pdf',format='pdf')
 #-----------------------------------------------------------------------
 ## Question 3
 #-----------------------------------------------------------------------
-# a. Estimate β manually using OLS
+# a. Estimate β manually 
+
+# I should calculate beta by hand. Use the Numpy package in Python to create an array X that is the n×p+1 matrix of the predictor variables in table 1 
+# and a column of ones and an array Y that is the n×1 vector of the dependent variable. Use matrix operations to calculate ˆ β. Recall that ˆ β = (X′X)−1X′Y
+# is the closed-form solution to the least-squares minimization problem.
+
+
+# Define the values of n and p
+n = 1000  # Number of observations
+p = 3  # Number of predictor variables
+
+# Add a column of 1s to main dataset
+data_with1 = data.assign(constant=1)
+
+X_with1 = data_with1.drop('electricity',axis=1)
+
+
+# Convert DataFrame to NumPy array
+X = X_with1.to_numpy()
+
+# Transpose X, square X and inverse the square of X
+tr_X = np.transpose(X) 
+XX = np.dot(tr_X, X) 
+XX_inverse = np.linalg.inv(XX)
+
+
+# Select dependent variable from the matrix
+outcome = data['electricity']
+Y = outcome.to_numpy()
+
+XY = np.dot(tr_X,Y)
+β = np.dot(XX_inverse, XY)
+
+print (β )
 
 
