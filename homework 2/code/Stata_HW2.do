@@ -45,7 +45,7 @@ eststo control: quietly estpost summarize electricity sqft temp if retrofit == 0
 eststo treatment: quietly estpost summarize electricity sqft temp if retrofit == 1
 eststo differences: quietly estpost ttest electricity sqft temp, by(retrofit) unequal
 
-esttab control treatment differences using "$table_path\summarytable.tex", cell( mean(pattern(1 1 0) fmt(2) label(Mean)) & p(pattern(0 0 1) fmt(3)) sd(pattern(1 1 0) fmt(2) par label(Std. Dev.)) & t(pattern(0 0 1) fmt(3) par([ ]) ) ) mtitle("Control" "Treatment" "P-value")  collabels(none) nonum stats(N, fmt(%15.0fc) label("Observations"))
+esttab control treatment differences using "$table_path\summarytable.tex", cell( mean(pattern(1 1 0) fmt(2) label(Mean)) & p(pattern(0 0 1) fmt(3)) sd(pattern(1 1 0) fmt(2) par(( )) label(Std. Dev.)) & t(pattern(0 0 1) fmt(3) par([ ]) ) ) mtitle("Control" "Treatment" "P-value")  collabels(none) nonum stats(N, fmt(%15.0fc) label("Observations"))
 
 
 *****************************************************
