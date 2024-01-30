@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{titlesec}
+\usepackage[section]{placeins}
 
 \hypersetup{
 colorlinks=true,
@@ -27,12 +28,12 @@ colorlinks=true,
 \maketitle 
 
 \section*{Python}
-\textbf{Note:} \textit{I asked Afi to help me with the Python code only. That's why I will follow similar steps as he did with small modifications. }
+\textbf{Note:} \textit{ While working on this HW, I got help from Afi only with the Python codes.}
 
 \subsection*{Question 1.1}
 \textbf{Response:} Randomization worked which is demonstrated by comparison across control and treatment groups that indicates statistical balance in observables. Column 3 presents the differences in means and the standard errors of the differences in brackets. The differences are small and in case of electricity consumption statistically significant.
 
-\begin{table}[ht]
+\begin{table}[hbt!]
     \centering
     \input{homework 2/output/table/SummaryTablePy}
     \caption{Summary Statistics for the treated and control groups.}
@@ -42,42 +43,58 @@ colorlinks=true,
 
 \subsection*{Question 1.2}
 
-\begin{figure}[ht]
+\begin{figure}[hbt!]
     \centering
     \includegraphics[scale = 0.7]{homework 2/output/figure/densityplotpy.pdf}
     \caption{Kernel density plots of the electricity use for treated group and control group.}
     \label{fig:hist}
 \end{figure}
 
-\subsection*{Question 1.3}
 
+\FloatBarrier
+\subsection*{Question 1.3}
+(a) I used the Numpy package in Python to create an array X that is the 1000×4 matrix of the predictor variables (3) and a column of ones and an array Y that is the 1000×1 vector
+of the dependent variable. The codes are provided in the Python code file. I used matrix operations to calculate \(\hat{\beta}\). Recall that 
+
+\[\hat{\beta} = (X^{'}X)^{-1}X^{'}Y \]
+
+I obtained \(\hat{\beta}\) that is a 4x1 vector with the following values [   0.615 -109.666  3.255 -83.603]
+
+\FloatBarrier
 \section*{Stata}
 
 \subsection*{Question 2.1}
 
+I created a table that displays each variable’s sample mean, sample standard deviation, and p-values for the two-way t-test between treatment and control group means. Please see the Table \ref{tab:sum_table}
 
-\begin{table}[ht]
+
+\begin{table}[hbt!]
     \centering
     \input{homework 2/output/table/summarytable}
     \caption{Summary statistics produced using Stata}
-    \label{tab:my_label}
+    \label{tab:sum_table}
 \end{table}
 
 \subsection*{Question 2.2}
 
-\begin{figure}[ht]
+I created a two-way scatterplot of electricity consumption and square feet of home data using Stata. Please refer to the Figure below.
+
+\begin{figure}[hbt!]
     \centering
     \includegraphics[scale = 0.7]{homework 2/output/figure/scatterplot.pdf}
     \caption{Scatterplot with electricity consumption and square feet of home}
-      \label{fig:scatter}
+    \label{tab:scatter}
 \end{figure}
 
+\FloatBarrier
 \subsection*{Question 2.3}
-\begin{table}[ht]
+I estimated model using OLS and obtained heteroskedasticity robust standard errors and coefficients. Please refer to the Table below. 
+
+\begin{table}[hbt!]
     \centering
     \input{homework 2/output/table/robustOLS}
     \caption{OLS regression results using Stata}
-     \label{tab:my_label}
+     \label{tab:robust_table}
   \end{table}
 
 
