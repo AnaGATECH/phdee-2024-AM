@@ -90,17 +90,9 @@ plt.show
 plt.savefig(outputpath + '/figure/densityplotpy.pdf',format='pdf')
 
 
-
+#-----------------------------------------------------------------------
 ## Question 3
-
+#-----------------------------------------------------------------------
 # a. Estimate β manually using OLS
 
 
-
-# b.  Estimate β using OLS by simulated least squares. 
-# Use the Scipy.optimize.minimize() function in Python to numerically minimize the sum of squares objective function.
-
-
-
-
-# c. Estimate β using OLS canned routine. Use the StatsModels package in Python using the OLS routine.
