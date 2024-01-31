@@ -43,12 +43,12 @@ notreat=data.loc[data['retrofit']==0].drop('retrofit',axis=1)
 # Generate means, standard deviations, and number of observations and format then to two decimal places
 
 means_control = notreat.mean().map('{:.2f}'.format)
-stdev_control = notreat.std().map('{:.2f}'.format)
+stdev_control = notreat.std().map('({:.2f})'.format)
 nobs_control = pd.Series(notreat.count().min()).map('{:.0f}'.format)
 
 
 means_treatment = treat.mean().map('{:.2f}'.format)
-stdev_treatment = treat.std().map('{:.2f}'.format)
+stdev_treatment = treat.std().map('({:.2f})'.format)
 nobs_treatment = pd.Series(treat.count().min()).map('{:.0f}'.format)
 
 
@@ -77,7 +77,7 @@ col.index = rownames
 col.to_latex(outputpath + '/table/SummaryTablePy.tex',column_format='lccc',escape=False)
 
 ## b. Does it appear that the randomization worked? If so, what can we say about the simple difference-in-means estimate?
-## See final document
+## See final pdf document
 
 #-----------------------------------------------------------------------
 ## Question 1.2 
@@ -108,46 +108,34 @@ plt.savefig(outputpath + '/figure/densityplotpy.pdf',format='pdf')
 n = 1000  # Number of observations
 p = 3  # Number of predictor variables
 
-# Add a column of 1s to main dataset
-data_with1 = data.assign(constant=1)
-
-X_with1 = data_with1.drop('electricity',axis=1)
-
-
+# Add a column of 1s to the main dataset and keep covariates as a separate dataset.
 # Convert DataFrame to NumPy array
-X = X_with1.to_numpy()
+data_with1 = data.assign(constant=1)
+X = data_with1.drop('electricity',axis=1).to_numpy()
 
-# Transpose X, square X and inverse the square of X
+
+# Select dependent variable from the matrix and make an array of Y
+Y = data['electricity'].to_numpy()
+
+
+# Calcualte beta: Transpose X, square X, inverse the square of X, multiply X and Y
 tr_X = np.transpose(X) 
 XX = np.dot(tr_X, X) 
 XX_inverse = np.linalg.inv(XX)
-
-
-# Select dependent variable from the matrix
-outcome = data['electricity']
-Y = outcome.to_numpy()
-
 XY = np.dot(tr_X,Y)
+
+
 β = np.dot(XX_inverse, XY)
 
-print (β )
+## Format estimates
+#β  = np.around(β, 2)
+beta = pd.Series(β).map('{:.3f}'.format)
 
-#### I need to correct this part and add b also. 
+print (beta)
+
+
 # b. OLS by simulated least squares
-# Useful command:
-    # create dataset from the dataset that includes all varibles except one
-    # X = data.drop(columns=['electricity'])
-    # display dataset
-    # X.head()
-    # Y = data['electricity']
-    # Y.head()
-    # model  = sm.OLS(Y, X)
-    # fit = model.fit()
-    # fit.summary()
-    
-    # regress electricity usage data on covariates
-    # ols = sm.OLS(data['electricity'],sm.add_constant(data.drop('electricity',axis = 1))).fit()
-    # print (ols.summary())
+
     
 # c. Estimate β using statsmodels
 
@@ -156,22 +144,30 @@ betaols = ols.params.to_numpy() # save estimated parameters
 params, = np.shape(betaols) # save number of estimated parameters
 nobs1c = int(ols.nobs)
 
-## Format estimates
-betaols = np.round(betaols,2)
-
 ## Get output in order
-order = [1,2,0]
+order = [1,2,3,0]
 output = pd.DataFrame(np.column_stack([betaols])).reindex(order)
+output = output.reset_index(drop=True)
+cannedols = output.squeeze().map('{:.3f}'.format)
 
-## Row and column names
-rownames = pd.concat([pd.Series(['electricity','sqft','retrofit', 'temp','Constant','Observations']),pd.Series([' ',' ',' ',' ',' '])],axis = 1).stack() # Note this stacks an empty list to make room for CIs
-colnames = ['Estimates']
 
-## Append CIs, # Observations, row and column names
-output = pd.DataFrame(pd.concat([output.stack(),pd.Series(nobs3)]))
-output.index = rownames
-output.columns = colnames
 
-## Output directly to LaTeX
-output.to_latex(outputpath + '/table/statsmodel.tex',column_format='lccc',escape=False)
+# Set the row and column names
+rownames = pd.Series(['Square feet of home','=1 if house received retrofit', 'Outdoor average temperature (\\textdegree F)','Constant'])
+
+
+cl1 = beta
+cl2 = cannedols
+
+cl = pd.DataFrame({'By hand': cl1, 'StatsModels': cl2})
+cl.index = rownames
+cl.to_latex(outputpath + '/table/testbeta.tex',column_format='lccc',escape=False)
+
+
+
+
+
+
+
+
 
