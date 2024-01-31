@@ -142,3 +142,11 @@ plt.xlim((-0.5,2.5)) # Scales the figure more nicely
 plt.axhline(linewidth=2, color='r')
 plt.savefig('samplebars.pdf',format='pdf')
 plt.show()
+
+
+
+
+
+
+x = np.linspace(0, 1, 101)
+y = 1 + x + x * np.random.random(len(x))

@@ -17,6 +17,7 @@ from scipy import stats
 import csv
 from scipy.optimize import minimize
 import statsmodels.api as sm
+from sklearn.linear_model import LinearRegression as lr
 
 
 # Set working directories and seed
@@ -110,8 +111,8 @@ p = 3  # Number of predictor variables
 
 # Add a column of 1s to the main dataset and keep covariates as a separate dataset.
 # Convert DataFrame to NumPy array
-data_with1 = data.assign(constant=1)
-X = data_with1.drop('electricity',axis=1).to_numpy()
+data_with1 = data.assign(constant=1).drop('electricity',axis=1)
+X = data_with1.to_numpy()
 
 
 # Select dependent variable from the matrix and make an array of Y
@@ -134,7 +135,16 @@ beta = pd.Series(β).map('{:.3f}'.format)
 print (beta)
 
 
-# b. OLS by simulated least squares
+# b. OLS by simulated least squares. It is not correct!!!
+
+
+y = np.dot( X, β)
+
+leastsquare = lr().fit(X, y)
+
+beta2 = leastsquare.coef_
+beta2 = pd.Series(beta2).map('{:.3f}'.format)
+
 
     
 # c. Estimate β using statsmodels
@@ -157,9 +167,10 @@ rownames = pd.Series(['Square feet of home','=1 if house received retrofit', 'Ou
 
 
 cl1 = beta
-cl2 = cannedols
+cl2 = beta2
+cl3 = cannedols
 
-cl = pd.DataFrame({'By hand': cl1, 'StatsModels': cl2})
+cl = pd.DataFrame({'By hand': cl1, 'LeastSquare': cl2, 'StatsModels': cl3})
 cl.index = rownames
 cl.to_latex(outputpath + '/table/testbeta.tex',column_format='lccc',escape=False)
 
