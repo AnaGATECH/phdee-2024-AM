@@ -133,14 +133,30 @@ XY = np.dot(tr_X,Y)
 print (β )
 
 #### I need to correct this part and add b also. 
+# b. OLS by simulated least squares
+# Useful command:
+    # create dataset from the dataset that includes all varibles except one
+    # X = data.drop(columns=['electricity'])
+    # display dataset
+    # X.head()
+    # Y = data['electricity']
+    # Y.head()
+    # model  = sm.OLS(Y, X)
+    # fit = model.fit()
+    # fit.summary()
+    
+    # regress electricity usage data on covariates
+    # ols = sm.OLS(data['electricity'],sm.add_constant(data.drop('electricity',axis = 1))).fit()
+    # print (ols.summary())
+    
 # c. Estimate β using statsmodels
 
 ols = sm.OLS(data['electricity'],sm.add_constant(data.drop('electricity',axis = 1))).fit()
 betaols = ols.params.to_numpy() # save estimated parameters
 params, = np.shape(betaols) # save number of estimated parameters
-nobs3 = int(ols.nobs)
+nobs1c = int(ols.nobs)
 
-## Format estimates and confidence intervals
+## Format estimates
 betaols = np.round(betaols,2)
 
 ## Get output in order
