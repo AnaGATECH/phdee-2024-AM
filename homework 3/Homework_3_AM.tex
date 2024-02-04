@@ -1,0 +1,83 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage[letterpaper, portrait, margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage[section]{placeins}
+
+\hypersetup{
+colorlinks=true,
+    linkcolor=black,
+    filecolor=black,      
+    urlcolor=blue,
+    citecolor=black,
+}
+
+  
+\title{Economics 7103 - Homework 3}
+\author{Ana Mazmishvili}
+\date{ February 3, 2024 }
+  
+\begin{document}
+  
+\maketitle 
+\section{Stata or Python}
+Suppose that for a home \(i\), you think the underlying relationship between electricity use and predictor
+variables is \(y_i= e^{\alpha} \delta^{d_i} z_i^\gamma e^{\eta_i}\) where 
+\begin{itemize}
+    \item \(e\) is Euler’s number or the base of the natural logarithm 
+    \item \(d_i\) is a binary variable equal to one if home \(i\) received the retrofit program
+    \item \(z_i\) is a vector of the other control variables
+    \item \(\eta_i\) is unobserved error 
+    \item \({\alpha, \delta, \gamma}\) are parameters to estimate.
+\end{itemize}
+
+\subsection*{Question 1.a} 
+Show that \(ln(y_i)= \alpha + ln(\delta)d_i + \gamma ln(z_i) + \eta_i\)
+
+\textbf{Response:} 
+The given equation, \(y_i= e^{\alpha} \delta^{d_i} z_i^\gamma e^{\eta_i}\), represents a power regression model, which is a non-linear regression model. To transform it into a linear regression model, we need to take the natural log of both sides of the equation. We call this log-log transformation. I will use the properties of logarithms and exponential functions in this transformation:
+\begin{itemize}
+    \item \textbf{Taking log:} \(ln(y_i)= ln(e^{\alpha} \delta^{d_i} z_i^\gamma e^{\eta_i})\)
+    \item \textbf{Product Rule:} \(ln(y_i)= ln(e^{\alpha})+ln(\delta^{d_i}) + ln(z_i^\gamma)+ln(e^{\eta_i})\)
+    \item \textbf{Power Rule:} \(ln(y_i)= \alpha ln(e)+ln(\delta)d_i + \gamma ln(z_i) +\eta_iln(e)\)
+    \item \textbf{The natural logarithm of \(e\) = 1:} \(ln(y_i)= \alpha + ln(\delta)d_i + \gamma ln(z_i) + \eta_i\)      
+\end{itemize}
+
+
+
+
+
+\subsection*{Question 1.b} What is the intuitive interpretation of \(\delta\) ? 
+
+\textbf{Response:} 
+\(\delta\)
+
+
+\subsection*{Question 1.c}
+\textbf{Response:} 
+
+
+\[\hat{\beta} = (X^{'}X)^{-1}X^{'}Y \]
+
+ 
+
+\subsection*{Question 1.d}
+\textbf{Response:} 
+
+
+\subsection*{Question 1.e}
+\textbf{Response:} 
+
+
+\subsection*{Question 1.f}
+\textbf{Response:} 
+
+
+
+\end{document}
