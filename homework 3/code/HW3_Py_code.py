@@ -131,9 +131,9 @@ col2=pd.concat([output_ame.stack(),pd.Series(nobs1)])
 rownames = pd.concat([pd.Series(['Constant','=1 if home received retrofit','Square feet of home','Outdoor average temperature (\\textdegree F)','Observations']),pd.Series([' ',' ',' ',' '])],axis = 1).stack() # Note this stacks an empty list to make room for CIs
 
 ## Append CIs, # Observations, row and column names
-order = [1,2,3,0]
+#order = [1,2,3,0]
 col = pd.DataFrame({'Parameter estimates': col1, 'AME estimates': col2})
-col.reindex(order)
+#col.reindex(order)
 col.index = rownames
 col.to_latex(outputpath + '/table/hw31e.tex',column_format='lccc',escape=False)
 
