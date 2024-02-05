@@ -122,9 +122,9 @@ col1=pd.concat([output_ols.stack(),pd.Series(nobs1)])
 
 ## Get AME estimates output in order
 output_ame = pd.DataFrame(np.column_stack([ameP,ci_ame]))
-output_ame.loc[len(output_ame.index)]=[' ',' '] # shift the dataframe down one row
-output_ame=output_ame.shift()
-output_ame.loc[0]=[' ',' ']
+output_ame.loc[len(output_ame.index)] = [' ',' '] # shift the dataframe down one row
+output_ame = output_ame.shift()
+output_ame.loc[0] = [' ',' ']
 col2=pd.concat([output_ame.stack(),pd.Series(nobs1)])
 
 ## Row and column names
