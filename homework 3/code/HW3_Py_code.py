@@ -19,15 +19,15 @@ from sklearn.linear_model import LinearRegression as lr
 
 # Set working directories and seed
 
-# If working from home:
+#If working from home:
 
-# datapath = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 2\data'
-# outputpath = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 2\output'
+datapath = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 2\data'
+outputpath = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 2\output'
 
 # If working on campus: 
 
-datapath = r'C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 3\data'
-outputpath = r'C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 3\output'
+#datapath = r'C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 3\data'
+#outputpath = r'C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 3\output'
 
 
 np.random.seed(4)
@@ -137,12 +137,16 @@ col.reindex(order)
 col.index = rownames
 col.to_latex(outputpath + '/table/hw31e.tex',column_format='lccc',escape=False)
 
-# Plot AME with error bars for sqft and temp -------------------------------------
+
+### Question 1.f ###
+# -------------------------------------------------------------------------- #
+
+# Plot AME with error bars for sqft and temp 
 lowbar = np.array(ame[1:3] - lb_ame[1:3])
 highbar = np.array(ub_ame[1:3] - ame[1:3])
-plt.errorbar(y = ame[1:3], x = np.arange(params-2), yerr = [lowbar,highbar], fmt = 'o', capsize = 5)
+plt.errorbar(y = ame[1:3], x = np.arange(params-2), yerr = [lowbar,highbar], fmt = 'o', capsize = 6)
 plt.ylabel('AME estimates')
 plt.xticks(np.arange(params-2),['Square feet of home', 'Outdoor average temperature ($\degree$F)'])
 plt.xlim((-0.5,1.5)) # Scales the figure more nicely
-plt.axhline(linewidth=2, color='r')
+plt.axhline(linewidth=2, color='y')
 plt.savefig(outputpath + '/figure/hw3ame.pdf',format='pdf')
