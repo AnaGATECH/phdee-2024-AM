@@ -10,14 +10,26 @@ set more off
 
 * Set up my working directories
 
-global path "C:\Users\Owner\Dropbox\phdee-2024-AM\homework 3"
+* While working at home: 
+*******************************************************************************
+*global path "C:\Users\Owner\Dropbox\phdee-2024-AM\homework 3"
+
+*cd "`path'
+
+*global datapath = "C:\Users\Owner\Dropbox\phdee-2024-AM\homework 3\data"
+*global table_path "$path\output\table" 
+*global figure_path "$path\output\figure"
+
+* While working on campus: 
+*******************************************************************************
+global path "C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 3"
 
 cd "`path'
 
-global datapath = "C:\Users\Owner\Dropbox\phdee-2024-AM\homework 3\data"
-
+global datapath = "C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 3\data"
 global table_path "$path\output\table" 
 global figure_path "$path\output\figure"
+
 
 
 * Download and use plotplainblind scheme
@@ -49,6 +61,10 @@ import delimited "$datapath\kwh.csv"
     label variable sqft "Square feet of the home"
     label variable retrofit "= 1 if the home received a retrofit"
     label variable temp "The outdoor average temperature (◦F) during the month at the home's location"
+	
+	label variable ln_electr "log kWh electricity"
+    label variable ln_sqft "log of square feet of the home"
+    label variable ln_temp "log of the outdoor average temperature (◦F)"
 	
 	
 	* Fit linear regression model
