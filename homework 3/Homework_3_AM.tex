@@ -70,16 +70,24 @@ So, as we saw \(\delta\) is the ratio between the expected electricity consumpti
 \subsection*{Question 1.c} Show that\(\frac{\triangle y_i}{\triangle d_i} = \frac{\delta -1}{\delta^{d_i}} y_i \). What is the intuitive interpretation of \(\frac{\triangle y_i}{\triangle d_i} \).
 
 \textbf{Response:} 
-\(\frac{\Delta y_i}{\Delta d_i}\) shows the change in monthly electricity consumption in kWh if a HH is treated (If a HH received a retrofit).
+
 From previous section, we saw that 
 \begin{align}
        E[y_i|d_i=1,z_i] = E[y_i|d_i=0,z_i]\delta 
     \end{align}
-Since \(d_i\) is a binary variable, \(\frac{\Delta y_i}{\Delta d_i}\) is the difference in the expected value of \(y_i\) between the treatment and control group. So, 
-\begin{align}   
+Since \(d_i\) is a binary variable, \(\frac{\Delta y_i}{\Delta d_i}\) is the difference in the expected value of \(y_i\) between the treatment and control group. So, \[  \frac{\Delta y_i}{\Delta d_i}=\E[y_i|d_i=1,z_i]-\E[y_i|d_i=0,z_i] = \E[y_i|d_i=0,z_i]\delta-\E[y_i|d_i=0,z_i] = (\delta - 1) \E[y_i|d_i=0,z_i] \]
+ 
+To find what \(\E[y_i|d_i=0]\) mean, we can apply the potential outcome framework. Namely, \(y_{0i}\) is the potential outcome of \(y_{i}\) when  \(d_i=0\) and \(y_{1i}\) when \(d_i=1\). According to the potential outcome framework, the log-transformed equation could be rewritten the following way
+    \[\ln(y_i)=\ln(y_{0i})+[\ln(y_{1i})-\ln(y_{0i})]d_i \]  
 
-    \[\frac{\Delta y_i}{\Delta d_i}=\E[y_i|d_i=1,z_i]-\E[y_i|d_i=0,z_i] = \E[y_i|d_i=0,z_i]\delta-\E[y_i|d_i=0,z_i] = (\delta - 1) \E[y_i|d_i=0,z_i]\]
-    \end{align}
+As we saw in previous section, \(y_{1i}/y_{0i}=\delta\).
+
+       \[ \ln (\frac{y_i}{y_{0i}})=d_i\ln(\frac{y_{1i}}{y_{0i}})=d_i\ln(\delta) \]  
+        \[ \frac{y_i}{y_{0i}}=e^{d_i\ln(\delta)}=\delta^{d_i} \]  
+         \[  y_{0i}=\frac{1}{\delta^{d_i}}y_i \] 
+          \[ \frac{\Delta y_i}{\Delta d_i}=(\delta - 1) \E[y_i|d_i=0,z_i]= (\delta - 1) y_{0i} = \frac{\delta-1}{\delta^{d_i}}y_i\]
+
+\(\frac{\Delta y_i}{\Delta d_i}\) shows the change in monthly electricity consumption in kWh if a HH is treated (If a HH received a retrofit).
  
 \subsection*{Question 1.d} Show that \(\frac{\partial y_i}{\partial z_i} = \gamma \frac{y_i}{z_i}\). What is the intuitive interpretation of \(\frac{\partial y_i}{\partial z_i}\) when \(z_i\) is the size of the home in square feet?
 
@@ -103,7 +111,7 @@ Estimated parameters and the average marginal effects of \(z_i\) and \(d_i\) are
     \label{tab:parameters}
         \end{table}
 
-
+\FloatBarrier
 \subsection*{Question 1.f}
 \textbf{Response:} 
 The Figue \ref{fig:CI} presents the average marginal effects of outdoor temperature and square feet of the home with
