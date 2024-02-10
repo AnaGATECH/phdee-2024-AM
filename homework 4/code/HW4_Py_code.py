@@ -37,5 +37,28 @@ np.random.seed(4)
 data=pd.read_csv(datapath +'/fishbycatch.csv')
 
 
-### Question 1.e ###
-# -------------------------------------------------------------------------- #
+# Convert the panel data from wide form to long form
+data_long = pd.wide_to_long(data, stubnames=["shrimp", "salmon", "bycatch"], i='firm', j='month')
+
+df = pd.DataFrame(data_long)
+
+# Group by 'group' and 'month' and calculate the mean for each group in each month
+grouped_data =df.groupby(by = ['treated', 'month']).mean().reset_index()
+
+# Plotting
+plt.figure(figsize=(10, 6))
+for group in df['treated'].unique():
+    group_data = grouped_data[grouped_data['treated'] == group]
+    plt.plot(group_data['month'], group_data['bycatch'], label=group)
+
+plt.title('Line Plot for Treated and Control Groups Over Months')
+plt.xlabel('Month')
+plt.xticks(range(1,25))
+plt.ylabel('Average bycatch')
+plt.axvline(x=12, color='red', linestyle='--', label='Treatment Month')
+## Rename legends
+new_legend_labels = ['Control Group', 'Treated Group']
+plt.legend(labels=new_legend_labels)
+plt.savefig(outputpath + '/figure/trend1.pdf',format='pdf')
+plt.show()
+
