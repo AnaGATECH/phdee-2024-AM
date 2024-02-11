@@ -5,6 +5,7 @@ get_ipython().magic('reset -sf')
 
 # Import packages 
 import os
+import sys
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -37,13 +38,15 @@ np.random.seed(4)
 data=pd.read_csv(datapath +'/fishbycatch.csv')
 
 
+print(data.info())
 # Convert the panel data from wide form to long form
-data_long = pd.wide_to_long(data, stubnames=["shrimp", "salmon", "bycatch"], i='firm', j='month')
+df = pd.wide_to_long(data, stubnames=["shrimp", "salmon", "bycatch"], i='firm', j='month')
 
-df = pd.DataFrame(data_long)
 
-# Group by 'group' and 'month' and calculate the mean for each group in each month
+
+# 1.  Group by 'group' and 'month' and calculate the mean for each group in each month
 grouped_data =df.groupby(by = ['treated', 'month']).mean().reset_index()
+
 
 # Plotting
 plt.figure(figsize=(10, 6))
@@ -61,4 +64,37 @@ new_legend_labels = ['Control Group', 'Treated Group']
 plt.legend(labels=new_legend_labels)
 plt.savefig(outputpath + '/figure/trend1.pdf',format='pdf')
 plt.show()
+
+# 2. 
+
+## Create indicator variables for post-treatment period
+df['post_treatment'] = (df.index.get_level_values('month') >= 13).astype(int)
+df['trt_posttrt'] = (df['post_treatment']*df['treated'])
+
+
+
+## Estimate the DiD effect using linear regression
+ols = sm.add_constant(df[['treated', 'post_treatment', 'trt_posttrt']])
+model = sm.OLS(df['bycatch'], ols).fit()
+params = model.params.to_numpy()
+nobs = model.nobs
+
+## Display the regression results
+print(model.summary())
+
+print(model.params)
+
+# Save the original standard output
+original_stdout = sys.stdout
+
+# Redirect standard output to a file
+with open(outputpath + '/table/DIDoutput1.tex', 'w') as f:
+    sys.stdout = f
+    print(model.params)
+
+# Restore the original standard output
+sys.stdout = original_stdout
+
+
+
 
