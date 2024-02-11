@@ -65,16 +65,40 @@ plt.legend(labels=new_legend_labels)
 plt.savefig(outputpath + '/figure/trend1.pdf',format='pdf')
 plt.show()
 
-# 2. 
+# 2
+
+## Manually alculating DiD estimator
+
+df['months'] = (df.index.get_level_values('month'))
+
+# Filter data for December 2017 and January 2018
+dec_2017 = df[(df['months'] == 12)]
+jan_2018 = df[(df['months'] == 13)]
+
+# Calculate means for the treatment group
+treated_dec_mean = dec_2017[df['treated'] == 1]['bycatch'].mean()
+#treated_dec_mean = treated_dec_mean.map('{:.2f}'.format)
+treated_jan_mean = jan_2018[df['treated'] == 1]['bycatch'].mean()
+
+
+# Calculate means for the control group
+control_dec_mean = dec_2017[df['treated'] == 0]['bycatch'].mean()
+control_jan_mean = jan_2018[df['treated'] == 0]['bycatch'].mean()
+
+# Calculate the DiD estimate
+T = 1  # Assuming the post-treatment period is one month
+DiD_estimate = ((treated_jan_mean - treated_dec_mean) / T) - ((control_jan_mean - control_dec_mean) / T)
+
+print("DiD Estimate:", DiD_estimate)
 
 ## Create indicator variables for post-treatment period
 df['post_treatment'] = (df.index.get_level_values('month') >= 13).astype(int)
-df['trt_posttrt'] = (df['post_treatment']*df['treated'])
+df['treated_post'] = (df['post_treatment']*df['treated'])
 
 
 
 ## Estimate the DiD effect using linear regression
-ols = sm.add_constant(df[['treated', 'post_treatment', 'trt_posttrt']])
+ols = sm.add_constant(df[['treated', 'post_treatment', 'treated_post']])
 model = sm.OLS(df['bycatch'], ols).fit()
 params = model.params.to_numpy()
 nobs = model.nobs
@@ -84,16 +108,16 @@ print(model.summary())
 
 print(model.params)
 
-# Save the original standard output
-original_stdout = sys.stdout
+## Save the original standard output
+#original_stdout = sys.stdout
 
 # Redirect standard output to a file
-with open(outputpath + '/table/DIDoutput1.tex', 'w') as f:
-    sys.stdout = f
-    print(model.params)
+#with open(outputpath + '/table/DIDoutput1.tex', 'w') as f:
+#    sys.stdout = f
+#    print(model.params)
 
-# Restore the original standard output
-sys.stdout = original_stdout
+## Restore the original standard output
+#sys.stdout = original_stdout
 
 
 
