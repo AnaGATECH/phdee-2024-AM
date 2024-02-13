@@ -14,6 +14,7 @@ colorlinks=true,
 \usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage{titlesec}
+\usepackage[section]{placeins}
 
 \titleformat{\section}
 {\normalfont\Large\bfseries}{\thesection}{1em}{}[{\titlerule[0.8pt]}]
@@ -28,7 +29,7 @@ colorlinks=true,
 
 \section{Python}
 
-\noindent 1. See figure \ref{fig:trend}
+\noindent 1. As we see from the figure \ref{fig:trend}, the treatment and control groups do not have perfect parallel trends, but the gap between them are still similar. Although the difference remains consistent over time until December 2017, a markedly sharp decrease in bycatch is observed right before treatment.
 
 \begin{figure}[h]
     \centering
@@ -36,6 +37,8 @@ colorlinks=true,
     \caption{ Bycatch by month before and after treatment. }
     \label{fig:trend}
 \end{figure}
+
+\FloatBarrier
 
 \noindent 2. See table \ref{tab:DID1}
 
