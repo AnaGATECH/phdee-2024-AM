@@ -69,6 +69,7 @@ plt.show()
 
 
 df['months'] = (df.index.get_level_values('month'))
+df['firms'] = (df.index.get_level_values('firm'))
 
 # Filter data for December 2017 and January 2018
 dec_2017 = df[(df['months'] == 12)]
@@ -122,6 +123,7 @@ df2_in.head()
 ols = sm.add_constant(df2_in[['Dec2017', 'treated', 'treated_post']])
 model = sm.OLS(df2_in['bycatch'], ols).fit()
 params = model.params.to_numpy()
+se = model.bse
 nobs = model.nobs
 
 ## Display the regression results
@@ -146,23 +148,16 @@ df = df.replace({True: 1, False: 0})
 print(df)
 
 
-# Get the list of variable names with the same base
-base_name = 'm_'
-var_names = [f'{"m_"}{i}' for i in range(1, 25)]
+## Regression results using the full monthly sample
+ols1 = sm.add_constant(df[['treated','treated_post','m_1', 'm_2','m_3','m_4','m_5','m_6','m_7','m_8','m_9','m_10','m_11','m_12',\
+                           'm_13','m_14','m_15','m_16','m_17','m_18','m_19','m_20','m_21','m_22','m_23','m_24' ]])
 
-other_variables = [' treated ', ' treated_post']
-
-# Combine variable names and other variables
-all_variables = other_variables + var_names
-
-# Create the formula for the regression
-formula = 'bycatch ~' + ' + '.join(all_variables)
-
-
-# Fit the OLS regression model
-model1 = sm.OLS.from_formula(formula, data=df)
-results1 = model1.fit()
-params1 = model1.params1.to_numpy()
+model1 = sm.OLS(df['bycatch'], ols1).fit(cov_type='cluster', cov_kwds={'groups': df['firms']})
+params1 = model1.params.to_numpy()
+par_keep = ['treated','treated_post']
+params1_keep = model1.params[par_keep]
+se1 = model1.bse
+se1_keep = model1.bse[par_keep]
 nobs1 = model1.nobs
 
 ## Display the regression results
@@ -170,46 +165,29 @@ print(model1.summary())
 print(model1.params)
 
 
-## Regression results using the full monthly sample
-ols1 = sm.add_constant(df[['treated', 'treated_post', 'm_1']])
 
-model = sm.OLS(df2_in['bycatch'], ols).fit()
-params = model.params.to_numpy()
-nobs = model.nobs
+## 3.c. Estimate the treatment effect of the program on bycatch using the full monthly sample and control for firm size and other covariates
+ols2 = sm.add_constant(df[['treated','treated_post','firmsize','salmon','shrimp','m_1', 'm_2','m_3','m_4','m_5','m_6','m_7','m_8','m_9','m_10','m_11','m_12',\
+                           'm_13','m_14','m_15','m_16','m_17','m_18','m_19','m_20','m_21','m_22','m_23','m_24' ]])
+
+model2 = sm.OLS(df['bycatch'], ols2).fit(cov_type='cluster', cov_kwds={'groups': df['firms']})
+params2 = model2.params.to_numpy()
+se2 = model2.bse
+par2_keep = ['treated','treated_post','firmsize','salmon','shrimp']
+params2_keep = model2.params[par2_keep]
+se2_keep = model2.bse[par2_keep]
+nobs2 = model2.nobs
+
 
 ## Display the regression results
-print(model.summary())
-print(model.params)
-
-
-# Get the OLS estimates
-ols_b=feols(fml="bycatch ~ treated + treatit | Month", data=data_long, vcov={'CRV1': 'firm'})
-beta_b=ols_b.coef()
-se_b=ols_b.se()
-ci_b=ols_b.confint()
-ols_b.summary()
-
-# Question 3 c
-# Create the indicator variable
-data_long['treatit']=np.where((data_long['year']==2018) & (data_long['treated']==1),1,0)
-# Get the OLS estimates
-ols_c=feols(fml="bycatch ~ treated + treatit + firmsize + salmon + shrimp | Month", data=data_long, vcov={'CRV1': 'firm'})
-beta_c=ols_c.coef()
-se_c=ols_c.se()
-ci_c=ols_c.confint()
-ols_c.summary()
+print(model2.summary())
+print(model2.params)
 
 # Export to latex
-report_table=pd.DataFrame({'(a)': ["{:0.2f}".format(ols_a.coef()['treatit']), "({:0.2f})".format(ols_a.se()['treatit']), "\checkmark", "\checkmark", "$\\times$","Dec 2017 - Jan 2018"],
-                           '(b)': ["{:0.2f}".format(ols_b.coef()['treatit']), "({:0.2f})".format(ols_b.se()['treatit']), "\checkmark", "\checkmark", "$\\times$","Jan 2017 - Dec 2018"],
-                           '(c)': ["{:0.2f}".format(ols_c.coef()['treatit']), "({:0.2f})".format(ols_c.se()['treatit']), "\checkmark", "\checkmark", "\checkmark","Jan 2017 - Dec 2018"]},
-                        index=['DID estimates', 
-                               ' ',
-                               '\midrule Group FE',
-                               'Month Indicator' ,
-                               'Controls', 
-                               'Sample'])
-report_table.to_latex(outputpath + '/table/reporttable1.tex', column_format='rccc', float_format="%.2f", escape=False)
+
+summary_report.to_latex(outputpath + '/table/sumreport.tex', column_format='rccc', float_format="%.2f", escape=False)
+
+
 
 
 
