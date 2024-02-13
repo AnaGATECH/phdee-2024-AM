@@ -69,7 +69,7 @@ set more off
 ** Demeaning each variable 
 ** Comment: firmsize and firm variables will be eliminated after demeaning, but month variable will get negative results after demeaning. I am not sure what we should do with time dummies
 
-	foreach z of varlist bycatch treat shrimp salmon month_* {
+	foreach z of varlist bycatch treat shrimp salmon {
 		egen mean_`z' = mean(`z'), by(firm)
 		gen dem_`z' = `z' - mean_`z'
 		drop mean_*
@@ -77,11 +77,6 @@ set more off
 	}
 	
 la var dem_treat "Treatment"
-
-** OLS Regression of the demeaned variables with time FE
-	reg dem_bycatch dem_treat dem_shrimp dem_salmon dem_month_*, vce(cluster firm)
-	eststo Model2
-	estadd local method "Demeaned"
 
 ** OLS Regression of the demeaned variables without time FE	
 	reg dem_bycatch dem_treat dem_shrimp dem_salmon, vce(cluster firm)
@@ -92,7 +87,7 @@ la var dem_treat "Treatment"
 	esttab using "$table_path\summary_table.tex", rename(dem_treat treat) label replace ///
 		keep(treat) ///
 		b(2) se(2) ////
-		mtitle("(a) Original" "(b) With Month FE" "(b) No FE") collabels(none) nostar nonote nonum ///
+		mtitle("(a) Original" "(b) No FE") collabels(none) nostar nonote nonum ///
 		coeflabels(treat "Treatment Effect Estimates") ///
 		scalars("method Method") obslast 
 
