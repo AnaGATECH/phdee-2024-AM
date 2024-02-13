@@ -22,8 +22,14 @@ from sklearn.linear_model import LinearRegression as lr
 
 # Set working directories and seed
 
-datapath = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 2\data'
-outputpath = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 2\output'
+#datapath = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 2\data'
+#outputpath = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 2\output'
+
+
+# If working on campus: 
+
+datapath = r'C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 2\data'
+outputpath = r'C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 2\output'
 
 
 np.random.seed(6578103)

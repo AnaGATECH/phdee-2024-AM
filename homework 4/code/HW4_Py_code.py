@@ -123,30 +123,26 @@ df2_in['treated_post']=np.where((df2_in['months']==13) & (df2_in['treated']==1),
 df2_in.head()
 
 
+
 ## 3.a. Estimate the treatment effect of the program on bycatch using two-period DID
 ols = sm.add_constant(df2_in[['treated', 'treated_post', 'Dec2017']])
 model = sm.OLS(df2_in['bycatch'], ols).fit()
 
+par_keep = ['treated', 'treated_post']
 
-results=[]
-results.append(model)
-
-
-
-params = model.params.to_numpy()
-se = model.bse
-# par_k = ['treated', 'treated_post', 'Dec2017']
-par_k = ['treated']
-params_keep = model.params[par_k]
-se_keep = model.bse[par_k]
+params = model.params[par_keep].to_numpy()
+params = pd.Series(params).map('{:.2f}'.format)
+se = model.bse[par_keep]
 nobs = model.nobs
 
-#sum_results = []
-#sum_results.append(params_keep)
+
+
+
+
 
 ## Display the regression results
-print(model.summary())
-print(model.params)
+#print(model.summary())
+#print(model.params)
 
 
 ## Question 3.b. Estimate the treatment effect of the program on bycatch using the full monthly sample
@@ -173,22 +169,16 @@ ols1 = sm.add_constant(df[['treated','treated_post','m_1', 'm_2','m_3','m_4','m_
 model1 = sm.OLS(df['bycatch'], ols1).fit(cov_type='cluster', cov_kwds={'groups': df['firms']})
 
 
+par_keep1 = ['treated','treated_post']
 
-results.append(model1)
-
-
-
-params1 = model1.params.to_numpy()
-par_keep = ['treated']
-#par_keep = ['treated','treated_post']
-params1_keep = model1.params[par_keep]
-se1 = model1.bse
-se1_keep = model1.bse[par_keep]
+params1 = model1.params[par_keep].to_numpy()
+params1 = pd.Series(params1).map('{:.2f}'.format)
+se1 = model1.bse[par_keep]
 nobs1 = model1.nobs
 
 ## Display the regression results
-print(model1.summary())
-print(model1.params)
+#print(model1.summary())
+#print(model1.params)
 
 
 
@@ -198,38 +188,56 @@ ols2 = sm.add_constant(df[['treated','treated_post','firmsize','salmon','shrimp'
 
 model2 = sm.OLS(df['bycatch'], ols2).fit(cov_type='cluster', cov_kwds={'groups': df['firms']})
 
+par_keep2 = ['treated','treated_post','firmsize','salmon','shrimp']
 
-
-results.append(model2)
-
-
-
-params2 = model2.params.to_numpy()
-se2 = model2.bse
-par2_keep = ['treated']
-#par2_keep = ['treated','treated_post','firmsize','salmon','shrimp']
-params2_keep = model2.params[par2_keep]
-se2_keep = model2.bse[par2_keep]
+params2 = model2.params[par_keep].to_numpy()
+params2 = pd.Series(params2).map('{:.2f}'.format)
+se2 = model2.bse[par_keep]
 nobs2 = model2.nobs
 
 
 ## Display the regression results
-print(model2.summary())
+#print(model2.summary())
 print(model2.params)
 
 
+### Different ways that i tried but did not give the desiried outcome
+
+## I tried to append results these way but row names were missing and also, there were all variables. 
+#results=[]
+#results.append(model)
+#results.append(model1)
+#results.append(model2)
+
+
+# I tried Stargazer's package but overleaf does not read it properly
 
 #os.chdir(outputpath)
 
-stargazer = Stargazer([model, model1, model2])
-with open((outputpath + '/table/sumreport.tex'), "w") as f:
-    f.write(stargazer.render_latex())
+#stargazer = Stargazer([model, model1, model2])
+#with open((outputpath + '/table/sumreport.tex'), "w") as f:
+#    f.write(stargazer.render_latex())
 
 
 
+## Get output in order
+#order = [1,2,3,0]
+output = pd.DataFrame(np.column_stack([params]))  #.reindex(order)
+#output = output.reset_index(drop=True)
+#cannedols = output.squeeze().map('{:.2f}'.format)
 
 
 
+# Set the row and column names
+rownames = pd.Series(['Treatment','Post Treatment'])
 
+
+cl1 = params
+cl2 = params1
+cl3 = params2
+
+cl = pd.DataFrame({'Two Period Sample': cl1, 'All Months': cl2, 'With Covariates': cl3})
+cl.index = rownames
+cl.to_latex(outputpath + '/table/test.tex')
 
 
