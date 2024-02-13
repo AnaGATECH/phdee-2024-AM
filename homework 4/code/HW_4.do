@@ -61,7 +61,7 @@ set more off
 
 	reg bycatch treat shrimp salmon firmsize firm_* month_*, vce(cluster firm)
 	eststo Model1
-	estadd local method "Firm & Month FEs"
+	estadd local method "With FEs"
 	
 ********************************************************************************
 * Question 1.b
@@ -81,7 +81,7 @@ la var dem_treat "Treatment"
 ** OLS Regression of the demeaned variables with time FE
 	reg dem_bycatch dem_treat dem_shrimp dem_salmon dem_month_*, vce(cluster firm)
 	eststo Model2
-	estadd local method "Demeaned & Month FE"
+	estadd local method "Demeaned"
 
 ** OLS Regression of the demeaned variables without time FE	
 	reg dem_bycatch dem_treat dem_shrimp dem_salmon, vce(cluster firm)
@@ -92,58 +92,8 @@ la var dem_treat "Treatment"
 	esttab using "$table_path\summary_table.tex", rename(dem_treat treat) label replace ///
 		keep(treat) ///
 		b(2) se(2) ////
-		mtitle("Model 1" "Model 2" "Model 3") collabels(none) nostar nonote nonum ///
+		mtitle("(a) Original" "(b) With Month FE" "(b) No FE") collabels(none) nostar nonote nonum ///
 		coeflabels(treat "Treatment Effect Estimates") ///
 		scalars("method Method") obslast 
 
 	
-** Combine results for the DID
-outreg2 [Model1 Model2 Model3]  treatment using "$table_path\summary_table.tex", rename(dem_treat treat) label replace ///
-		keep(treat) ///
-		mtitle("(a)" "(b)" "(c)") collabels(none) nostar nonote nonum ///
-		coeflabels(treat "Treatment Effect Estimates") ///
-		dec(3) label tex(fragment)replace 
-
- ///
-    varlabels("Treatment" "Treatment" "Treatment"), label tex(fragment) replace
-	
-	
-* Balance table
-
-	local summarylist "electricity sqft temp"
-
-	eststo treated: quietly estpost summarize `summarylist' if retrofit == 1
-	eststo controls: quietly estpost summarize `summarylist' if retrofit == 0
-	eststo diff: quietly estpost ttest `summarylist', by(retrofit) unequal
-	
-	cd "`outputpath'"
-	
-	esttab treated controls diff using summarystats.tex, tex cells("mean(pattern(1 1 0) fmt(%9.2fc) label(Mean))  b(star pattern(0 0 1) fmt(%9.2fc) label(Diff.))" "sd(pattern(1 1 0) par label(SD)) p(pattern(0 0 1) par fmt(%9.2fc) label(p-value))") stats(N obs, fmt(%9.0fc) labels("Observations")) starlevels(* 0.05 ** 0.01) mtitles(Treated Controls Difference) label replace prehead({\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} \begin{tabular}{l*{3}{cc}} \hline) prefoot( & & & \\) postfoot(\hline \multicolumn{4}{c}{ ** p$<$0.01, * p$<$0.05} \\ \end{tabular} })
-	
-********************************************************************************
-* Question 2
-********************************************************************************
-
-* Scatter plot
-
-	twoway scatter electricity sqft, ytitle("Electricity consumption (kwh)") xtitle("Square feet") title(Question 2)
-	graph export question2_scatterplot.pdf, replace
-	
-********************************************************************************
-* Question 3
-********************************************************************************
-
-* Label variables
-
-	la var electricity "Electricity (kwh)"
-	la var sqft "Square feet"
-	la var retrofit "Treatment"
-	la var temp "Temperature"
-
-* Regression
-
-	reg electricity sqft retrofit temp, vce(robust)
-	
-* Table output
-	
-	outreg2 using question3_output.tex, label tex(fragment) replace
