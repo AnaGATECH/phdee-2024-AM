@@ -201,7 +201,7 @@ output = pd.DataFrame(np.column_stack([params]))
 
 
 # Set the row and column names
-rownames = pd.Series(['Treatment','treatment'])
+rownames = pd.Series(['Treated','Treatment'])
 
 cl1 = params
 cl2 = params1
