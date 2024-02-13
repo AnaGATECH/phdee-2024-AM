@@ -11,10 +11,34 @@ colorlinks=true,
 \usepackage[letterpaper, portrait, margin=1in]{geometry}
 \usepackage{enumitem}
 \usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{yhmath}
 \usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage{titlesec}
 \usepackage[section]{placeins}
+\usepackage{float}
+
+\usepackage[flushleft]{threeparttable}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{dsfont}
+
+
+\newcommand\iid{\stackrel{\mathclap{iid}}{\sim}}
+\newcommand\asym{\stackrel{\mathclap{a}}{\sim}}
+\newcommand\convprob{\xrightarrow{p}}
+\newcommand\convdist{\xrightarrow{d}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\E}{\text{E}}
+\newcommand{\V}{\text{Var}}
+\newcommand{\Av}{\text{Avar}}
+\newcommand{\se}{\text{se}}
+\newcommand{\corr}{\text{Corr}}
+\newcommand{\cov}{\text{Cov}}
+\newcommand{\norm}{\text{Normal}}
+\newcommand{\indep}{\perp \!\!\! \perp}
 
 \titleformat{\section}
 {\normalfont\Large\bfseries}{\thesection}{1em}{}[{\titlerule[0.8pt]}]
@@ -42,7 +66,7 @@ colorlinks=true,
 
 \noindent 2. I manually estimated using Python the treatment effect of the program on bycatch using the sample analog of the population difference-in-differences for the treatment and control groups in December 2017 and January 2018. The results are presented in table \ref{tab:DID1}
 
-\begin{table}[]
+\begin{table}[h]
     \centering
     \input{homework 4/output/table/DIDResults}
     \caption{The sample analog of the population DID for treatment and control groups.}
