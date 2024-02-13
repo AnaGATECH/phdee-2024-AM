@@ -195,10 +195,26 @@ params2 = pd.Series(params2).map('{:.2f}'.format)
 se2 = model2.bse[par_keep]
 nobs2 = model2.nobs
 
+## Create the table
+
+output = pd.DataFrame(np.column_stack([params]))
+
+
+# Set the row and column names
+rownames = pd.Series(['Treatment','Post Treatment'])
+
+cl1 = params
+cl2 = params1
+cl3 = params2
+
+cl = pd.DataFrame({'Two Period Sample': cl1, 'All Months': cl2, 'With Covariates': cl3})
+cl.index = rownames
+cl.to_latex(outputpath + '/table/report.tex')
+
 
 ## Display the regression results
 #print(model2.summary())
-print(model2.params)
+#print(model2.params)
 
 
 ### Different ways that i tried but did not give the desiried outcome
@@ -220,24 +236,6 @@ print(model2.params)
 
 
 
-## Get output in order
-#order = [1,2,3,0]
-output = pd.DataFrame(np.column_stack([params]))  #.reindex(order)
-#output = output.reset_index(drop=True)
-#cannedols = output.squeeze().map('{:.2f}'.format)
 
-
-
-# Set the row and column names
-rownames = pd.Series(['Treatment','Post Treatment'])
-
-
-cl1 = params
-cl2 = params1
-cl3 = params2
-
-cl = pd.DataFrame({'Two Period Sample': cl1, 'All Months': cl2, 'With Covariates': cl3})
-cl.index = rownames
-cl.to_latex(outputpath + '/table/test.tex')
 
 
