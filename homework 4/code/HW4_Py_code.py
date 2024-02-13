@@ -19,6 +19,7 @@ import csv
 from scipy.optimize import minimize
 import statsmodels.api as sm
 from sklearn.linear_model import LinearRegression as lr
+from stargazer.stargazer import Stargazer
 
 
 # Set working directories and seed
@@ -218,22 +219,10 @@ print(model2.params)
 
 
 
-# Display the summary tables for each model and export to PDF
-for i, result in enumerate(results, start=1):
-    table = result.summary().tables[1]
-    table_df = pd.DataFrame(table.data[1:], columns=table.data[0])
-    table_df.to_latex(os.path.join(outputpath, f'model_{i}_summary.tex'), index=False)
 
-# Compile the results into a summary table
-table = sm.iolib.summary2.summary_col(results, 
-                                      model_names=['Model 1', 'Model 2', 'Model 3'],
-                                      stars=True, 
-                                      float_format='%0.2f', 
-                                      info_dict={'N': lambda x: "{0:d}".format(int(x.nobs))})
+stargazer = Stargazer([model, model1, model2])
+stargazer.render_latex(outputpath + '/table/reportsum.tex')
 
-# Export the compiled summary table to PDF
-sum_report = pd.DataFrame(table.tables[0])
-sum_report.to_latex((outputpath + '/table/reporttable1.tex'), index=False)
 
 
 
