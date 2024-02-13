@@ -58,7 +58,7 @@ plt.title('Line Plot for Treated and Control Groups Over Months')
 plt.xlabel('Month')
 plt.xticks(range(1,25))
 plt.ylabel('Average bycatch')
-plt.axvline(x=12, color='red', linestyle='--', label='Treatment Month')
+plt.axvline(x=13, color='red', linestyle='--', label='Treatment Month')
 ## Rename legends
 new_legend_labels = ['Control Group', 'Treated Group']
 plt.legend(labels=new_legend_labels)
