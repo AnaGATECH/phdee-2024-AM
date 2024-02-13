@@ -49,7 +49,7 @@ grouped_data =df.groupby(by = ['treated', 'month']).mean().reset_index()
 
 
 # Plotting
-plt.figure(figsize=(10, 6))
+plt.figure(figsize=(7, 4))
 for group in df['treated'].unique():
     group_data = grouped_data[grouped_data['treated'] == group]
     plt.plot(group_data['month'], group_data['bycatch'], label=group)
@@ -95,11 +95,11 @@ did_results = pd.DataFrame({'Sample analog of the population DID': [treated_dec_
                                      control_dec_mean, 
                                       control_jan_mean, 
                                       DiD_estimate]},
-                        index=['$\E[Y_{igt}|g(i) = treat, t=Dec2017] = $', 
-                               '$\E[Y_{igt}|g(i) = treat, t=Jan2018] = $', 
-                               '$\E[Y_{igt}|g(i) = control, t=Dec2017] = $', 
-                               '$\E[Y_{igt}|g(i) = control, t=Jan2018] = $', 
-                               '$\DID$ = '])
+                        index=['$\E [Y_{igt}|g(i) = treat, t=Dec2017] = $', 
+                               '$\E [Y_{igt}|g(i) = treat, t=Jan2018] = $', 
+                               '$\E [Y_{igt}|g(i) = control, t=Dec2017] = $', 
+                               '$\E [Y_{igt}|g(i) = control, t=Jan2018] = $', 
+                               '$\midrule DID$ = '])
 did_results.to_latex(outputpath + '/table/DIDResults.tex', column_format='rl', float_format="%.2f", escape=False)
 
 
