@@ -61,7 +61,7 @@ set more off
 
 	reg bycatch treat shrimp salmon firmsize firm_* month_*, vce(cluster firm)
 	eststo Model1
-	estadd local method "OLS with Firm & Month FE"
+	estadd local method "Firm & Month FEs"
 	
 ********************************************************************************
 * Question 1.b
@@ -81,12 +81,12 @@ la var dem_treat "Treatment"
 ** OLS Regression of the demeaned variables with time FE
 	reg dem_bycatch dem_treat dem_shrimp dem_salmon dem_month_*, vce(cluster firm)
 	eststo Model2
-	estadd local method "Demeaned OLS with Month FE"
+	estadd local method "Demeaned & Month FE"
 
 ** OLS Regression of the demeaned variables without time FE	
 	reg dem_bycatch dem_treat dem_shrimp dem_salmon, vce(cluster firm)
 	eststo Model3
-	estadd local method "Demeaned OLS without Month FE"
+	estadd local method "Demeaned"
 	
 ** Combine results 
 	esttab using "$table_path\summary_table.tex", rename(dem_treat treat) label replace ///

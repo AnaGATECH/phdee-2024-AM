@@ -3,14 +3,18 @@ set more off
 
 * Set local paths
 
-	local datapath "C:\Users\Owner\Dropbox\phdee-2024-AM\homework 4\data"
-	local outputpath "C:\Users\Owner\Dropbox\phdee-2024-AM\homework 4\output"
+	global datapath "C:\Users\Owner\Dropbox\phdee-2024-AM\homework 4\data"
+	global  outputpath "C:\Users\Owner\Dropbox\phdee-2024-AM\homework 4\output"
 	
-	cd "`datapath'"
+	
+	global table_path "$outputpath\table" 
+    global figure_path "$outputpath\figure"
+	
+	*cd "`datapath'"
 	
 * Load data
 
-	import delimited fishbycatch.csv, clear
+	import delimited "$datapath\fishbycatch.csv", clear
 
 * Reshape file
 
@@ -29,8 +33,7 @@ set more off
 	la var firmsize "Size of fishing fleet"
 	la var treated "=1 if firm received information treatment in January 2018"
 	la var month "All months during 2017 & 2018"
-	
-	
+
 ********************************************************************************
 * Question 1.a
 ********************************************************************************
@@ -51,12 +54,14 @@ set more off
 	
 	gen treat=1 if month>=13 & treated==1
 	replace treat=0 if treat==. 
+	la var treat "Treatment"
  
 												
 ** OLS Regression with firm and month FE
 
 	reg bycatch treat shrimp salmon firmsize firm_* month_*, vce(cluster firm)
-
+	eststo Model1
+	estadd local method "Firm & Month FEs"
 	
 ********************************************************************************
 * Question 1.b
@@ -70,16 +75,39 @@ set more off
 		drop mean_*
 				
 	}
-
-
+	
+la var dem_treat "Treatment"
 
 ** OLS Regression of the demeaned variables with time FE
 	reg dem_bycatch dem_treat dem_shrimp dem_salmon dem_month_*, vce(cluster firm)
-	
+	eststo Model2
+	estadd local method "Demeaned & Month FE"
 
 ** OLS Regression of the demeaned variables without time FE	
 	reg dem_bycatch dem_treat dem_shrimp dem_salmon, vce(cluster firm)
+	eststo Model3
+	estadd local method "Demeaned"
+	
+** Combine results 
+	esttab using "$table_path\summary_table.tex", rename(dem_treat treat) label replace ///
+		keep(treat) ///
+		b(2) se(2) ////
+		mtitle("Model 1" "Model 2" "Model 3") collabels(none) nostar nonote nonum ///
+		coeflabels(treat "Treatment Effect Estimates") ///
+		scalars("method Method") obslast 
 
+	
+** Combine results for the DID
+outreg2 [Model1 Model2 Model3]  treatment using "$table_path\summary_table.tex", rename(dem_treat treat) label replace ///
+		keep(treat) ///
+		mtitle("(a)" "(b)" "(c)") collabels(none) nostar nonote nonum ///
+		coeflabels(treat "Treatment Effect Estimates") ///
+		dec(3) label tex(fragment)replace 
+
+ ///
+    varlabels("Treatment" "Treatment" "Treatment"), label tex(fragment) replace
+	
+	
 * Balance table
 
 	local summarylist "electricity sqft temp"
