@@ -92,9 +92,9 @@ la var dem_treat "Treatment"
 	esttab using "$table_path\summary_table.tex", rename(dem_treat treat) label replace ///
 		keep(treat) ///
 		b(2) se(2) ////
-		mtitle("(a)" "(b)" "(c)") collabels(none) nostar nonote nonum ///
-		coeflabels(treat "Tretment Effect Estimates") ///
-		scalars("method Method") obslast 
+		mtitle("Firm & Month FEs" "Demeaned with Month FE" "Demeaned without Month FE") collabels(none) nostar nonote nonum ///
+		coeflabels(treat "Tretment Effect Estimates")
+		
 
 	
 ** Combine results for the DID
