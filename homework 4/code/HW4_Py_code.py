@@ -65,9 +65,8 @@ plt.legend(labels=new_legend_labels)
 plt.savefig(outputpath + '/figure/trend1.pdf',format='pdf')
 plt.show()
 
-# 2
+# 2. Manually calculating DiD estimator
 
-## Manually alculating DiD estimator
 
 df['months'] = (df.index.get_level_values('month'))
 
@@ -75,19 +74,35 @@ df['months'] = (df.index.get_level_values('month'))
 dec_2017 = df[(df['months'] == 12)]
 jan_2018 = df[(df['months'] == 13)]
 
-# Calculate means for the treatment group
+## Calculate means for the treatment group
 treated_dec_mean = dec_2017[df['treated'] == 1]['bycatch'].mean()
 #treated_dec_mean = treated_dec_mean.map('{:.2f}'.format)
 treated_jan_mean = jan_2018[df['treated'] == 1]['bycatch'].mean()
 
 
-# Calculate means for the control group
+## Calculate means for the control group
 control_dec_mean = dec_2017[df['treated'] == 0]['bycatch'].mean()
 control_jan_mean = jan_2018[df['treated'] == 0]['bycatch'].mean()
 
-# Calculate the DiD estimate
-T = 1  # Assuming the post-treatment period is one month
+
+## Calculate the DiD estimate
+T = 1  # The post-treatment period is one month
 DiD_estimate = ((treated_jan_mean - treated_dec_mean) / T) - ((control_jan_mean - control_dec_mean) / T)
+
+## Creating table
+did_results = pd.DataFrame({'Sample analog of the population DID': [treated_dec_mean, 
+                                      treated_jan_mean, 
+                                     control_dec_mean, 
+                                      control_jan_mean, 
+                                      DiD_estimate]},
+                        index=['$\E[Y_{igt}|g(i) = treat, t=Dec2017] = $', 
+                               '$\E[Y_{igt}|g(i) = treat, t=Jan2018] = $', 
+                               '$\E[Y_{igt}|g(i) = control, t=Dec2017] = $', 
+                               '$\E[Y_{igt}|g(i) = control, t=Jan2018] = $', 
+                               '$\DID$ = '])
+did_results.to_latex(outputpath + '/table/DIDResults.tex', column_format='rl', float_format="%.2f", escape=False)
+
+
 
 print("DiD Estimate:", DiD_estimate)
 
@@ -107,6 +122,62 @@ nobs = model.nobs
 print(model.summary())
 
 print(model.params)
+
+
+
+
+
+#Question 3
+#Shaping the data matrix
+data_q1a=data_long.loc[data_long['Month'].isin([12,13])]
+data_q1a['t2017']=np.where(data_q1a['year']==2017,1,0)
+data_q1a['treatit']=np.where((data_q1a['year']==2018) & (data_q1a['treated']==1),1,0)
+data_q1a.head()
+
+
+# Estimate the DID model using pyfixest the python equivalent of R fixest package
+from pyfixest.estimation import feols, fepois
+from pyfixest.utils import get_data
+from pyfixest.summarize import etable
+
+#Qustion 3a
+ols_a=feols(fml="bycatch ~ treated + treatit | t2017", data=data_q1a, vcov={'CRV1': 'firm'})
+beta_a=ols_a.coef()
+se_a=ols_a.se()
+ci_a=ols_a.confint()
+ols_a.summary()
+
+# Question 3 b
+# Create the indicator variable
+data_long['treatit']=np.where((data_long['year']==2018) & (data_long['treated']==1),1,0)
+# Get the OLS estimates
+ols_b=feols(fml="bycatch ~ treated + treatit | Month", data=data_long, vcov={'CRV1': 'firm'})
+beta_b=ols_b.coef()
+se_b=ols_b.se()
+ci_b=ols_b.confint()
+ols_b.summary()
+
+# Question 3 c
+# Create the indicator variable
+data_long['treatit']=np.where((data_long['year']==2018) & (data_long['treated']==1),1,0)
+# Get the OLS estimates
+ols_c=feols(fml="bycatch ~ treated + treatit + firmsize + salmon + shrimp | Month", data=data_long, vcov={'CRV1': 'firm'})
+beta_c=ols_c.coef()
+se_c=ols_c.se()
+ci_c=ols_c.confint()
+ols_c.summary()
+
+# Export to latex
+report_table=pd.DataFrame({'(a)': ["{:0.2f}".format(ols_a.coef()['treatit']), "({:0.2f})".format(ols_a.se()['treatit']), "\checkmark", "\checkmark", "$\\times$","Dec 2017 - Jan 2018"],
+                           '(b)': ["{:0.2f}".format(ols_b.coef()['treatit']), "({:0.2f})".format(ols_b.se()['treatit']), "\checkmark", "\checkmark", "$\\times$","Jan 2017 - Dec 2018"],
+                           '(c)': ["{:0.2f}".format(ols_c.coef()['treatit']), "({:0.2f})".format(ols_c.se()['treatit']), "\checkmark", "\checkmark", "\checkmark","Jan 2017 - Dec 2018"]},
+                        index=['DID estimates', 
+                               ' ',
+                               '\midrule Group FE',
+                               'Month Indicator' ,
+                               'Controls', 
+                               'Sample'])
+report_table.to_latex(outputpath + '/table/reporttable1.tex', column_format='rccc', float_format="%.2f", escape=False)
 
 ## Save the original standard output
 #original_stdout = sys.stdout
