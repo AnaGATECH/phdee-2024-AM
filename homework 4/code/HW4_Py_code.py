@@ -25,13 +25,13 @@ from sklearn.linear_model import LinearRegression as lr
 
 #If working from home:
 
-datapath = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 4\data'
-outputpath = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 4\output'
+#datapath = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 4\data'
+#outputpath = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 4\output'
 
 # If working on campus: 
 
-#datapath = r'C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 4\data'
-#outputpath = r'C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 4\output'
+datapath = r'C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 4\data'
+outputpath = r'C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 4\output'
 
 
 np.random.seed(4)
@@ -123,11 +123,18 @@ df2_in.head()
 
 
 ## 3.a. Estimate the treatment effect of the program on bycatch using two-period DID
-ols = sm.add_constant(df2_in[['Dec2017', 'treated', 'treated_post']])
+ols = sm.add_constant(df2_in[['treated', 'treated_post', 'Dec2017']])
 model = sm.OLS(df2_in['bycatch'], ols).fit()
 params = model.params.to_numpy()
 se = model.bse
+# par_k = ['treated', 'treated_post', 'Dec2017']
+par_k = ['treated']
+params_keep = model.params[par_k]
+se_keep = model.bse[par_k]
 nobs = model.nobs
+
+#sum_results = []
+#sum_results.append(params_keep)
 
 ## Display the regression results
 print(model.summary())
@@ -157,7 +164,8 @@ ols1 = sm.add_constant(df[['treated','treated_post','m_1', 'm_2','m_3','m_4','m_
 
 model1 = sm.OLS(df['bycatch'], ols1).fit(cov_type='cluster', cov_kwds={'groups': df['firms']})
 params1 = model1.params.to_numpy()
-par_keep = ['treated','treated_post']
+par_keep = ['treated']
+#par_keep = ['treated','treated_post']
 params1_keep = model1.params[par_keep]
 se1 = model1.bse
 se1_keep = model1.bse[par_keep]
@@ -176,7 +184,8 @@ ols2 = sm.add_constant(df[['treated','treated_post','firmsize','salmon','shrimp'
 model2 = sm.OLS(df['bycatch'], ols2).fit(cov_type='cluster', cov_kwds={'groups': df['firms']})
 params2 = model2.params.to_numpy()
 se2 = model2.bse
-par2_keep = ['treated','treated_post','firmsize','salmon','shrimp']
+par2_keep = ['treated']
+#par2_keep = ['treated','treated_post','firmsize','salmon','shrimp']
 params2_keep = model2.params[par2_keep]
 se2_keep = model2.bse[par2_keep]
 nobs2 = model2.nobs
@@ -188,12 +197,11 @@ print(model2.params)
 
 
 
-sum_report=pd.DataFrame({'(a)': [(params), (se)], 
-                           '(b)': [(params1_keep), (se1_keep)], 
-                           '(c)': [(params2_keep), (se2_keep)]},
+sum_report=pd.DataFrame({'(a)': [params_keep, se_keep], 
+                           '(b)': [params1_keep, se1_keep], 
+                           '(c)': [params2_keep, se2_keep]},
                         index=['DID estimates', 
                                ' ' ])
 sum_report.to_latex(outputpath + '/table/reporttable1.tex', column_format='rccc', float_format="%.2f", escape=False)
-
 
 
