@@ -95,61 +95,93 @@ did_results = pd.DataFrame({'Sample analog of the population DID': [treated_dec_
                                      control_dec_mean, 
                                       control_jan_mean, 
                                       DiD_estimate]},
-                        index=['$\E[Y_{igt}|g(i) = treat, t=Dec2017]=$', 
-                               '$\E[Y_{igt}|g(i) = treat, t=Jan2018]=$', 
-                               '$\E[Y_{igt}|g(i) = control, t=Dec2017]=$', 
-                               '$\E[Y_{igt}|g(i) = control, t=Jan2018]=$', 
-                               '$\midrule DID = $'])
-did_results.to_latex(outputpath + '/table/DIDResults.tex', column_format='rl', float_format="%.2f", escape=False)
+                        index=['$\E[Y_{igt}|g(i)=treat, t=Dec2017]=$', 
+                               '$\E[Y_{igt}|g(i)=treat, t=Jan2018]=$', 
+                               '$\E[Y_{igt}|g(i)=control, t=Dec2017]=$', 
+                               '$\E[Y_{igt}|g(i)=control, t=Jan2018]=$', 
+                               '\midrule DID ='])
+did_results.to_latex(outputpath + '/table/DIDResults.tex', column_format='rl', float_format="%.3f", escape=False)
 
 
 
-print("DiD Estimate:", DiD_estimate)
+# 3. Estimate the treatment effect using the regression specifications
 
-## Create indicator variables for post-treatment period
-df['post_treatment'] = (df.index.get_level_values('month') >= 13).astype(int)
-df['treated_post'] = (df['post_treatment']*df['treated'])
+## Create the subsample 
+df2=df.loc[df['months'].isin([12,13])]
+
+## Reset the index of the subsample
+df2_in = df2.reset_index(drop=True)
+
+## Create variables for the regression
+df2_in['Dec2017']=np.where(df2_in['months']==12,1,0)
+df2_in['treated_post']=np.where((df2_in['months']==13) & (df2_in['treated']==1),1,0)
+df2_in.head()
 
 
-
-## Estimate the DiD effect using linear regression
-ols = sm.add_constant(df[['treated', 'post_treatment', 'treated_post']])
-model = sm.OLS(df['bycatch'], ols).fit()
+## 3.a. Estimate the treatment effect of the program on bycatch using two-period DID
+ols = sm.add_constant(df2_in[['Dec2017', 'treated', 'treated_post']])
+model = sm.OLS(df2_in['bycatch'], ols).fit()
 params = model.params.to_numpy()
 nobs = model.nobs
 
 ## Display the regression results
 print(model.summary())
-
 print(model.params)
 
 
+## Question 3.b. Estimate the treatment effect of the program on bycatch using the full monthly sample
+
+## Create variables for the regression
+df['treated_post']=np.where((df['months']>=13) & (df['treated']==1),1,0)
+
+# Create dummy variables for each month
+m_dummies = pd.get_dummies(df['months'], prefix='m')
+
+# Concatenate the dummy variables with the original DataFrame
+df = pd.concat([df, m_dummies], axis=1)
+
+df = df.replace({True: 1, False: 0})
+
+# Print the DataFrame with firm ID dummy variables
+print(df)
 
 
+# Get the list of variable names with the same base
+base_name = 'm_'
+var_names = [f'{"m_"}{i}' for i in range(1, 25)]
 
-#Question 3
-#Shaping the data matrix
-data_q1a=data_long.loc[data_long['Month'].isin([12,13])]
-data_q1a['t2017']=np.where(data_q1a['year']==2017,1,0)
-data_q1a['treatit']=np.where((data_q1a['year']==2018) & (data_q1a['treated']==1),1,0)
-data_q1a.head()
+other_variables = [' treated ', ' treated_post']
+
+# Combine variable names and other variables
+all_variables = other_variables + var_names
+
+# Create the formula for the regression
+formula = 'bycatch ~' + ' + '.join(all_variables)
 
 
-# Estimate the DID model using pyfixest the python equivalent of R fixest package
-from pyfixest.estimation import feols, fepois
-from pyfixest.utils import get_data
-from pyfixest.summarize import etable
+# Fit the OLS regression model
+model1 = sm.OLS.from_formula(formula, data=df)
+results1 = model1.fit()
+params1 = model1.params1.to_numpy()
+nobs1 = model1.nobs
 
-#Qustion 3a
-ols_a=feols(fml="bycatch ~ treated + treatit | t2017", data=data_q1a, vcov={'CRV1': 'firm'})
-beta_a=ols_a.coef()
-se_a=ols_a.se()
-ci_a=ols_a.confint()
-ols_a.summary()
+## Display the regression results
+print(model1.summary())
+print(model1.params)
 
-# Question 3 b
-# Create the indicator variable
-data_long['treatit']=np.where((data_long['year']==2018) & (data_long['treated']==1),1,0)
+
+## Regression results using the full monthly sample
+ols1 = sm.add_constant(df[['treated', 'treated_post', 'm_1']])
+
+model = sm.OLS(df2_in['bycatch'], ols).fit()
+params = model.params.to_numpy()
+nobs = model.nobs
+
+## Display the regression results
+print(model.summary())
+print(model.params)
+
+
 # Get the OLS estimates
 ols_b=feols(fml="bycatch ~ treated + treatit | Month", data=data_long, vcov={'CRV1': 'firm'})
 beta_b=ols_b.coef()
@@ -178,17 +210,6 @@ report_table=pd.DataFrame({'(a)': ["{:0.2f}".format(ols_a.coef()['treatit']), "(
                                'Controls', 
                                'Sample'])
 report_table.to_latex(outputpath + '/table/reporttable1.tex', column_format='rccc', float_format="%.2f", escape=False)
-
-## Save the original standard output
-#original_stdout = sys.stdout
-
-# Redirect standard output to a file
-#with open(outputpath + '/table/DIDoutput1.tex', 'w') as f:
-#    sys.stdout = f
-#    print(model.params)
-
-## Restore the original standard output
-#sys.stdout = original_stdout
 
 
 
