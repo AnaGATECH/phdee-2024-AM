@@ -1,0 +1,16 @@
+	(1)	(2)
+VARIABLES	dem_bycatch	dem_bycatch
+		
+dem_treat	2,489.017	-814,906***
+		(248,902)
+dem_shrimp	0.179	153.7***
+		(17.93)
+dem_salmon	0.598	-42.78
+		(59.82)
+dem_bycatch	.	
+Constant	0.001	-0.0222
+		(0.0901)
+		
+Observations	1,200	1,200
+R-squared	0.426	0.426
+*** p<0.01, ** p<0.05, * p<0.1		
