@@ -3,6 +3,9 @@
 from IPython import get_ipython
 get_ipython().magic('reset -sf')
 
+#pip install tabulate
+from tabulate import tabulate
+
 # Import packages 
 import os
 import sys
@@ -183,9 +186,24 @@ nobs2 = model2.nobs
 print(model2.summary())
 print(model2.params)
 
+
+# Extract coefficients and standard errors
+results = pd.DataFrame({
+    '(a)': params,
+    '(b)': params1_keep,
+    '(c)': params2_keep,
+    'Std Err 1': se,
+    'Std Err 2': se1_keep,
+    'Std Err 3': se2_keep,
+})
+
+# Display the table using tabulate
+table = tabulate(results, headers='keys', tablefmt='pretty', showindex=True)
+print(table)
+
 # Export to latex
 
-summary_report.to_latex(outputpath + '/table/sumreport.tex', column_format='rccc', float_format="%.2f", escape=False)
+#summary_report.to_latex(outputpath + '/table/sumreport.tex', column_format='rccc', float_format="%.2f", escape=False)
 
 
 
