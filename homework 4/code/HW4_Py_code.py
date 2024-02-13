@@ -219,9 +219,12 @@ print(model2.params)
 
 
 
+#os.chdir(outputpath)
 
 stargazer = Stargazer([model, model1, model2])
-stargazer.render_latex(outputpath + '/table/reportsum.tex')
+with open((outputpath + '/table/sumreport.tex'), "w") as f:
+    f.write(stargazer.render_latex())
+
 
 
 
