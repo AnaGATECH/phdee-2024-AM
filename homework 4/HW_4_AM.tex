@@ -83,7 +83,12 @@ colorlinks=true,
 
 \noindent \textbf{3.d.} See table \ref{tab:report}
 
-
+\begin{table}[h]
+    \centering
+    \input{homework 4/output/table/test}
+    \caption{Three model DID estimators}
+    \label{tab:report}
+\end{table}
 
 
 \section{Stata}
@@ -92,9 +97,9 @@ colorlinks=true,
 
 \noindent \textbf{1.b.} After demeaning at the firm level, "firmsize", "firm" and "month" dummy variables were eliminated. The DID estimator is presented in the second column of the Table \ref{tab:OLS}. \\
 
-\noindent \textbf{1.c} The table \ref{tab:OLS} summarizes the results of estimating models in part (a) and (b). In the first model, the results indicate that treated firms decreased bycatch by 8,085 pounds. In the demeaned OLS regression results, treated firms, on average, reduced bycatch by 8,149 pounds relative to the control group after accounting for group-specific time trends.
+\noindent \textbf{1.c} The Table \ref{tab:OLS} summarizes the results of estimating models in part (a) and (b). In the first model, the results indicate that treated firms decreased bycatch by 8,085 pounds. In the demeaned OLS regression results, treated firms, on average, reduced bycatch by 8,149 pounds relative to the control group after accounting for group-specific time trends.
 
-\begin{table}[]
+\begin{table}[h]
     \centering
     \input{homework 4/output/table/summary_table}
     \caption{Estimating the DID estimators using OLS regression}
