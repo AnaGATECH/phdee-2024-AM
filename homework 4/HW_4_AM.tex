@@ -54,10 +54,11 @@ colorlinks=true,
 
 \section{Stata}
 
-\noindent \textbf{1.a.} I generated firm and month indicator variables and included all of them in the regression. Stata dropped two firm indicator variables and one month indicator variable. The DID estimator is presented in the Table \ref{tab:OLS}. 
+\noindent \textbf{1.a.} I generated firm and month indicator variables and included all of them in the regression. Stata dropped two firm indicator variables and one month indicator variable. The DID estimator is presented in the first column of the Table \ref{tab:OLS}. \\
 
-\noindent 1.b. After demeaning at the firm level, "firmsize" and "firm" dummy variables were eliminated, but month variable will get negative results after demeaning. I am not sure what we should do with time dummies
-\noindent 1.c See table \ref{tab:OLS}
+\noindent \textbf{1.b.} After demeaning at the firm level, "firmsize", "firm" and "month" dummy variables were eliminated. The DID estimator is presented in the second column of the Table \ref{tab:OLS}. \\
+
+\noindent \textbf{1.c} The table \ref{tab:OLS} summarizes the results of estimating models in part (a) and (b). In the first model, the results indicate that treated firms decreased bycatch by 8,085 pounds. In the demeaned OLS regression results, treated firms, on average, reduced bycatch by 8,149 pounds relative to the control group after accounting for group-specific time trends.
 
 \begin{table}[]
     \centering
@@ -65,8 +66,5 @@ colorlinks=true,
     \caption{Estimating the DID estimators using OLS regression}
     \label{tab:OLS}
 \end{table}
-
-
-
 
 \end{document}
