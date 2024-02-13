@@ -49,26 +49,22 @@ colorlinks=true,
 
 \noindent 3. Each method produces quite similar results that probably only differ in rounding error:
 
+
 \noindent 4. See table .  If randomization worked, the simple difference-in-means is an unbiased estimate of the treatment effect.
+
 \section{Stata}
 
-\noindent 1. See table \ref{tab:OLS}
+\noindent \textbf{1.a.} I generated firm and month indicator variables and included all of them in the regression. Stata dropped two firm indicator variables and one month indicator variable. The DID estimator is presented in the first column of the Table \ref{tab:OLS}. \\
+
+\noindent \textbf{1.b.} After demeaning at the firm level, "firmsize", "firm" and "month" dummy variables were eliminated. The DID estimator is presented in the second column of the Table \ref{tab:OLS}. \\
+
+\noindent \textbf{1.c} The table \ref{tab:OLS} summarizes the results of estimating models in part (a) and (b). In the first model, the results indicate that treated firms decreased bycatch by 8,085 pounds. In the demeaned OLS regression results, treated firms, on average, reduced bycatch by 8,149 pounds relative to the control group after accounting for group-specific time trends.
 
 \begin{table}[]
     \centering
     \input{homework 4/output/table/summary_table}
-    \caption{OLS regression results}
+    \caption{Estimating the DID estimators using OLS regression}
     \label{tab:OLS}
 \end{table}
-
-
-
-\noindent 2. See figure 
-
-
-
-\noindent 3. See table 
-
-
 
 \end{document}
