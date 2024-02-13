@@ -125,6 +125,13 @@ df2_in.head()
 ## 3.a. Estimate the treatment effect of the program on bycatch using two-period DID
 ols = sm.add_constant(df2_in[['treated', 'treated_post', 'Dec2017']])
 model = sm.OLS(df2_in['bycatch'], ols).fit()
+
+
+results=[]
+results.append(model)
+
+
+
 params = model.params.to_numpy()
 se = model.bse
 # par_k = ['treated', 'treated_post', 'Dec2017']
@@ -163,6 +170,13 @@ ols1 = sm.add_constant(df[['treated','treated_post','m_1', 'm_2','m_3','m_4','m_
                            'm_13','m_14','m_15','m_16','m_17','m_18','m_19','m_20','m_21','m_22','m_23','m_24' ]])
 
 model1 = sm.OLS(df['bycatch'], ols1).fit(cov_type='cluster', cov_kwds={'groups': df['firms']})
+
+
+
+results.append(model1)
+
+
+
 params1 = model1.params.to_numpy()
 par_keep = ['treated']
 #par_keep = ['treated','treated_post']
@@ -182,6 +196,13 @@ ols2 = sm.add_constant(df[['treated','treated_post','firmsize','salmon','shrimp'
                            'm_13','m_14','m_15','m_16','m_17','m_18','m_19','m_20','m_21','m_22','m_23','m_24' ]])
 
 model2 = sm.OLS(df['bycatch'], ols2).fit(cov_type='cluster', cov_kwds={'groups': df['firms']})
+
+
+
+results.append(model2)
+
+
+
 params2 = model2.params.to_numpy()
 se2 = model2.bse
 par2_keep = ['treated']
@@ -197,11 +218,26 @@ print(model2.params)
 
 
 
-sum_report=pd.DataFrame({'(a)': [params_keep, se_keep], 
-                           '(b)': [params1_keep, se1_keep], 
-                           '(c)': [params2_keep, se2_keep]},
-                        index=['DID estimates', 
-                               ' ' ])
-sum_report.to_latex(outputpath + '/table/reporttable1.tex', column_format='rccc', float_format="%.2f", escape=False)
+# Display the summary tables for each model and export to PDF
+for i, result in enumerate(results, start=1):
+    table = result.summary().tables[1]
+    table_df = pd.DataFrame(table.data[1:], columns=table.data[0])
+    table_df.to_latex(os.path.join(outputpath, f'model_{i}_summary.tex'), index=False)
+
+# Compile the results into a summary table
+table = sm.iolib.summary2.summary_col(results, 
+                                      model_names=['Model 1', 'Model 2', 'Model 3'],
+                                      stars=True, 
+                                      float_format='%0.2f', 
+                                      info_dict={'N': lambda x: "{0:d}".format(int(x.nobs))})
+
+# Export the compiled summary table to PDF
+sum_report = pd.DataFrame(table.tables[0])
+sum_report.to_latex((outputpath + '/table/reporttable1.tex'), index=False)
+
+
+
+
+
 
 
