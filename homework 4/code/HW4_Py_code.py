@@ -95,11 +95,11 @@ did_results = pd.DataFrame({'Sample analog of the population DID': [treated_dec_
                                      control_dec_mean, 
                                       control_jan_mean, 
                                       DiD_estimate]},
-                        index=['$\E [Y_{igt}|g(i) = treat, t=Dec2017] = $', 
-                               '$\E [Y_{igt}|g(i) = treat, t=Jan2018] = $', 
-                               '$\E [Y_{igt}|g(i) = control, t=Dec2017] = $', 
-                               '$\E [Y_{igt}|g(i) = control, t=Jan2018] = $', 
-                               '$\midrule DID$ = '])
+                        index=['$\E[Y_{igt}|g(i) = treat, t=Dec2017]=$', 
+                               '$\E[Y_{igt}|g(i) = treat, t=Jan2018]=$', 
+                               '$\E[Y_{igt}|g(i) = control, t=Dec2017]=$', 
+                               '$\E[Y_{igt}|g(i) = control, t=Jan2018]=$', 
+                               '$\midrule DID = $'])
 did_results.to_latex(outputpath + '/table/DIDResults.tex', column_format='rl', float_format="%.2f", escape=False)
 
 
