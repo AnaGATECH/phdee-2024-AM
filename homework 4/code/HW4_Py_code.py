@@ -119,16 +119,16 @@ df2_in = df2.reset_index(drop=True)
 
 ## Create variables for the regression
 df2_in['Dec2017']=np.where(df2_in['months']==12,1,0)
-df2_in['treated_post']=np.where((df2_in['months']==13) & (df2_in['treated']==1),1,0)
+df2_in['treatment']=np.where((df2_in['months']==13) & (df2_in['treated']==1),1,0)
 df2_in.head()
 
 
 
 ## 3.a. Estimate the treatment effect of the program on bycatch using two-period DID
-ols = sm.add_constant(df2_in[['treated', 'treated_post', 'Dec2017']])
+ols = sm.add_constant(df2_in[['treated', 'treatment', 'Dec2017']])
 model = sm.OLS(df2_in['bycatch'], ols).fit()
 
-par_keep = ['treated', 'treated_post']
+par_keep = ['treated', 'treatment']
 
 params = model.params[par_keep].to_numpy()
 params = pd.Series(params).map('{:.2f}'.format)
@@ -148,7 +148,7 @@ nobs = model.nobs
 ## Question 3.b. Estimate the treatment effect of the program on bycatch using the full monthly sample
 
 ## Create variables for the regression
-df['treated_post']=np.where((df['months']>=13) & (df['treated']==1),1,0)
+df['treatment']=np.where((df['months']>=13) & (df['treated']==1),1,0)
 
 # Create dummy variables for each month
 m_dummies = pd.get_dummies(df['months'], prefix='m')
@@ -163,13 +163,13 @@ print(df)
 
 
 ## Regression results using the full monthly sample
-ols1 = sm.add_constant(df[['treated','treated_post','m_1', 'm_2','m_3','m_4','m_5','m_6','m_7','m_8','m_9','m_10','m_11','m_12',\
+ols1 = sm.add_constant(df[['treated','treatment','m_1', 'm_2','m_3','m_4','m_5','m_6','m_7','m_8','m_9','m_10','m_11','m_12',\
                            'm_13','m_14','m_15','m_16','m_17','m_18','m_19','m_20','m_21','m_22','m_23','m_24' ]])
 
 model1 = sm.OLS(df['bycatch'], ols1).fit(cov_type='cluster', cov_kwds={'groups': df['firms']})
 
 
-par_keep1 = ['treated','treated_post']
+par_keep1 = ['treated','treatment']
 
 params1 = model1.params[par_keep].to_numpy()
 params1 = pd.Series(params1).map('{:.2f}'.format)
@@ -183,12 +183,12 @@ nobs1 = model1.nobs
 
 
 ## 3.c. Estimate the treatment effect of the program on bycatch using the full monthly sample and control for firm size and other covariates
-ols2 = sm.add_constant(df[['treated','treated_post','firmsize','salmon','shrimp','m_1', 'm_2','m_3','m_4','m_5','m_6','m_7','m_8','m_9','m_10','m_11','m_12',\
+ols2 = sm.add_constant(df[['treated','treatment','firmsize','salmon','shrimp','m_1', 'm_2','m_3','m_4','m_5','m_6','m_7','m_8','m_9','m_10','m_11','m_12',\
                            'm_13','m_14','m_15','m_16','m_17','m_18','m_19','m_20','m_21','m_22','m_23','m_24' ]])
 
 model2 = sm.OLS(df['bycatch'], ols2).fit(cov_type='cluster', cov_kwds={'groups': df['firms']})
 
-par_keep2 = ['treated','treated_post','firmsize','salmon','shrimp']
+par_keep2 = ['treated','treatment','firmsize','salmon','shrimp']
 
 params2 = model2.params[par_keep].to_numpy()
 params2 = pd.Series(params2).map('{:.2f}'.format)
@@ -201,7 +201,7 @@ output = pd.DataFrame(np.column_stack([params]))
 
 
 # Set the row and column names
-rownames = pd.Series(['Treatment','Post Treatment'])
+rownames = pd.Series(['Treatment','treatment'])
 
 cl1 = params
 cl2 = params1
