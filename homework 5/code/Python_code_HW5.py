@@ -12,7 +12,8 @@ import matplotlib.pyplot as plt
 import random
 import statsmodels.api as sm
 
-# For stargazer I opened Anaconda Prompt using start and wrote there pip install stargazer. After that this code was executed. 
+# For stargazer I opened Anaconda Prompt using start and wrote there pip install stargazer. 
+# After that this code was executed. 
 from stargazer.stargazer import Stargazer as stargazer
 from stargazer.stargazer import LineLocation
 
@@ -38,4 +39,3 @@ np.random.seed(4)
 # Load dataset in the system 
 
 data=pd.read_csv('instrumentalvehicles.csv')
-l
