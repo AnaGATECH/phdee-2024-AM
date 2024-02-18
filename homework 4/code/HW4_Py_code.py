@@ -32,6 +32,8 @@ from stargazer.stargazer import LineLocation
 
 datapath = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 4\data'
 outputpath = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 4\output'
+figure = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 4\output\figure'
+table = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 4\output\table'
 
 # If working on campus: 
 
@@ -96,7 +98,7 @@ plt.xlabel('Month')
 plt.ylabel('Mean bycatch per firm (lbs)')
 plt.legend(['Control', 'Treatment','Treatment date'])
 plt.title('Line Plot for Treated and Control Groups Over Months')
-os.chdir(outputpath) # Change directory
+os.chdir(figure) # Change directory
 plt.savefig('trend1.pdf',format='pdf')
 plt.show()
 
@@ -171,13 +173,18 @@ DID3crobust = DID3c.get_robustcov_results(cov_type = 'cluster', groups = df['fir
 
 
 # Output table with Stargazer package  ----------------------------------------
+
 output = stargazer([DID3a,DID3b,DID3c])
+
+
 
 output.covariate_order(['treated','treatgroup','pre_13','shrimp', 'salmon'])
 output.rename_covariates({'treated':'Treated','treatgroup':'Treatment group','pre_13':'Pre-period','shrimp':'Shrimp','salmon':'Salmon'})
 output.add_line('Month indicators',['Y','Y','Y'], LineLocation.FOOTER_TOP)
 output.significant_digits(2)
 output.show_degrees_of_freedom(False)
+
+os.chdir(table) # Change directory
 
 file_name = "test.tex" #Include directory path if needed
 tex_file = open('report.tex', "w" ) #This will overwrite an existing file
@@ -191,7 +198,7 @@ tex_file.close()
 
 
 
-
+### My original codes are below ----------------------------------------------
 
 # ----------------------------------------------------------------------------
 
