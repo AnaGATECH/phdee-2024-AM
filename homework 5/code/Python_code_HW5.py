@@ -58,9 +58,102 @@ with open('ols_summary.tex', 'w') as f:
     
 # Problem 3.a ------------------------------------------------------------------
 
+## The First Stage
 yvar3a = data['mpg']
-xvar3a = data[['weight','car']]
+xvar3a_1 = sm.add_constant(data[['weight','car']])
 
-ols3a = sm.OLS(yvar3a,sm.add_constant(xvar3a, prepend = False).astype(float)).fit()
 
+ols3a_1 = sm.OLS(yvar3a,xvar3a_1.astype(float)).fit()
+fit_mpg3a = ols3a_1.fittedvalues.to_frame()
+
+## I need here to access the F value of instrument
+
+#inst_f_stat = ols3a_1.f_test([0, 1]).fvalue
+
+## This gives me F value for the whole regression.
+#inst_f_stat = ols3a_1.fvalue
+#print (inst_f_stat)
+
+
+
+## The Second Stage
+xvar3a_2 = pd.concat([data[['weight','car']], fit_mpg3a], axis=1)
+xvar3a_2.rename(columns={0: 'fit_mpg'}, inplace=True)
+
+ols3a_2 = sm.OLS(yvar1,sm.add_constant(xvar3a_2, prepend = False).astype(float)).fit()
+ols3a_2_ci = ols3a_2.conf_int()
+ols3a_2_coef = ols3a_2.params
+ols3a = pd.DataFrame({'Parameters': ols3a_2_coef, 'Lower CI': ols3a_2_ci[0], 'Upper CI': ols3a_2_ci[1]})
+
+
+
+# Problem 3.b-------------------------------------------------
+## Create variable that equals to square of weight
+
+data['weight2'] = np.square(data['weight'])
+
+## The First Stage
+yvar3b = data['mpg']
+    
+xvar3b_1 = sm.add_constant(data[['weight2','car']])
+
+ols3b_1 = sm.OLS(yvar3a,xvar3b_1.astype(float)).fit()
+fit_mpg3b = ols3b_1.fittedvalues.to_frame()
+
+
+## The Second Stage
+xvar3b_2 = pd.concat([data[['weight2','car']],fit_mpg3b], axis=1)
+xvar3b_2.rename(columns={0: 'fit_mpg'}, inplace=True)
+
+ols3b_2 = sm.OLS(yvar1,sm.add_constant(xvar3b_2, prepend = False).astype(float)).fit()
+
+
+# Problem 3.c ------------------------------------------------------------------
+
+## The First Stage
+yvar3c = data['mpg']
+xvar3c_1 = sm.add_constant(data[['height','car']])
+
+
+ols3c_1 = sm.OLS(yvar3c,xvar3c_1.astype(float)).fit()
+fit_mpg3c = ols3c_1.fittedvalues.to_frame()
+
+## The Second Stage
+xvar3c_2 = pd.concat([data[['height','car']],fit_mpg3c], axis=1)
+xvar3c_2.rename(columns={0: 'fit_mpg'}, inplace=True)
+
+ols3c_2 = sm.OLS(yvar1,sm.add_constant(xvar3c_2, prepend = False).astype(float)).fit()
+
+
+# Output table with Stargazer package  ----------------------------------------
+
+output = stargazer([ols3a_2, ols3b_2, ols3c_2])
+
+print(output)
+
+
+
+output.covariate_order(['fit_mpg','weight','weight2','height','car'])
+output.rename_covariates({'fit_mpg':'MPG','weight':'Weight','weight2':'Squared Weight','height':'Height','car':'Car'})
+# I can add here manually F statostics
+#output.add_line('Month indicators',['Y','Y','Y'], LineLocation.FOOTER_TOP)
+output.significant_digits(2)
+output.show_degrees_of_freedom(False)
+
+os.chdir(table) # Change directory
+
+tex_file = open('3RegResults.tex', "w" ) #This will overwrite an existing file
+tex_file.write( output.render_latex() )
+tex_file.close()
+
+
+
+
+# Problem 4 ------------------------------------------------------------------
+
+endog = data['mpg']
+exog = sm.add_constant(data['car'])
+instrument = data['weight']
+
+# ivgmm = sm.IVGMM(yvar1, endog, exog, instrument, prepend = False).fit()
 
