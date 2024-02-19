@@ -47,8 +47,15 @@
 
 \noindent 3.e Compare and contrast the estimated coefficient on mpg from parts (a)-(c). What explains the discrepancies?
 
+\noindent 4. Calculate the IV estimate using GMM with weight as the excluded instrument. (Look for the Linearmodels function IVGMM). Report the estimated second-stage coefficient and standard error or confidence interval for mpg What factors account for the differences in the standard errors?
+
 
 \section{Stata}
+
+\noindent 1. Use the ivregress liml command to compute the limited information maximum likelihood estimate using weight as the excluded instrument. Report your second-stage results in a nicely-formatted table using outreg2. Use heteroskedasticity-robust standard errors.
+
+
+\noindent 2. Use weakivtest to estimate the Montiel-Olea-Pflueger effective F-statistic. What is the 5\% critical value, the F-statistic, and conclusion?
 
 
 \end{document}
