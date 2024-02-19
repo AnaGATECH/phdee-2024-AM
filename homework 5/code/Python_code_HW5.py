@@ -82,9 +82,12 @@ xvar3a_2 = pd.concat([data[['car']], fit_mpg3a], axis=1)
 xvar3a_2.rename(columns={0: 'fit_mpg'}, inplace=True)
 
 ols3a_2 = sm.OLS(yvar1,sm.add_constant(xvar3a_2, prepend = False).astype(float)).fit()
-ols3a_2_ci = ols3a_2.conf_int()
-ols3a_2_coef = ols3a_2.params
-ols3a = pd.DataFrame({'Parameters': ols3a_2_coef, 'Lower CI': ols3a_2_ci[0], 'Upper CI': ols3a_2_ci[1]})
+
+
+##I did not use these series because Stagazer did not needed to produce the results table
+#ols3a_2_ci = ols3a_2.conf_int()
+#ols3a_2_coef = ols3a_2.params
+#ols3a = pd.DataFrame({'Parameters': ols3a_2_coef, 'Lower CI': ols3a_2_ci[0], 'Upper CI': ols3a_2_ci[1]})
 
 
 
@@ -145,7 +148,7 @@ print(output)
 
 
 output.covariate_order(['fit_mpg','car'])
-output.rename_covariates({'fit_mpg':'MPG','car':'Car'})
+output.rename_covariates({'fit_mpg':'Miles per gallon','car':'Car'})
 output.add_line('F-statistics from the 1st Stage',[fstat_a,fstat_b,fstat_c], LineLocation.FOOTER_TOP)
 output.significant_digits(2)
 output.show_degrees_of_freedom(False)
