@@ -25,8 +25,8 @@ from stargazer.stargazer import LineLocation
 
 datapath = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 5\data'
 outputpath = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 5\output'
-figure = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 4\output\figure'
-table = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 4\output\table'
+figure = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 5\output\figure'
+table = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 5\output\table'
 
 # If working on campus: 
 
@@ -44,15 +44,23 @@ data=pd.read_csv('instrumentalvehicles.csv')
 
 # Problem 1 ------------------------------------------------------------------
 
-yvar3a = data['price']
-xvar3a = data[['mpg','car']]
+yvar1 = data['price']
+xvar1 = data[['mpg','car']]
 
 os.chdir(table)
-ols = sm.OLS(yvar3a,sm.add_constant(xvar3a, prepend = False).astype(float)).fit() 
+ols = sm.OLS(yvar1,sm.add_constant(xvar1, prepend = False).astype(float)).fit() 
+
+
 latex_output = ols.summary().as_latex()
 
 with open('ols_summary.tex', 'w') as f:
     f.write(latex_output)
+    
+# Problem 3.a ------------------------------------------------------------------
 
+yvar3a = data['mpg']
+xvar3a = data[['weight','car']]
+
+ols3a = sm.OLS(yvar3a,sm.add_constant(xvar3a, prepend = False).astype(float)).fit()
 
 
