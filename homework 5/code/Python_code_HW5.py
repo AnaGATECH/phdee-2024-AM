@@ -75,7 +75,7 @@ fstat_a = ols3a_1.fvalue
 fstat_a = round(fstat_a, 2)
 print (fstat_a)
 fpval_a = ols3a_1.f_pvalue
-fpval_a = round(fpval_a,2)
+fpval_a = round(fpval_a,4)
 print (fpval_a)
 
 
@@ -112,7 +112,7 @@ fstat_b = ols3b_1.fvalue
 fstat_b = round(fstat_b, 2)
 print (fstat_b)
 fpval_b = ols3b_1.f_pvalue
-fpval_b = round(fpval_b,2)
+fpval_b = round(fpval_b,4)
 print (fpval_b)
 
 
@@ -138,7 +138,7 @@ fstat_c = ols3c_1.fvalue
 fstat_c = round(fstat_c, 2)
 print (fstat_c)
 fpval_c = ols3c_1.f_pvalue
-fpval_c = round(fpval_c,2)
+fpval_c = round(fpval_c,4)
 print (fpval_c)
 
 ## The Second Stage
