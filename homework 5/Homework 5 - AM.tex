@@ -20,7 +20,7 @@
 \maketitle
 
 \section{Python}
-\noindent 1. OLS regression results are presented in the output Table \ref{tab:OLS1} below. The price of a car decreases by \$22 if that car drives one mile more per gallon. 
+\noindent 1. OLS regression results are presented in the output Table \ref{tab:OLS1}. As the car becomes more fuel-efficient (able to travel more miles per gallon), its price decreases by \$22 for each additional mile per gallon. This implies that higher fuel efficiency is associated with a lower cost for the car.
 
 \begin{table}[h]
     \centering
@@ -29,11 +29,11 @@
     \label{tab:OLS1}
 \end{table}
 
-\noindent 2. In this model, I am concerned about the omitted variable bias that could result in a correlation between mpg and the error term.
+\noindent 2. In this model, I am concerned about the \textbf{Omitted Variable Bias}. For instance, car characteristics other than being a Sedan or SUV, are omitted from the model that might be correlated with both the price and mpg. This can lead to biased and inconsistent estimates. 
 
 \clearpage
 
-\noindent 3. (a-c) Manully calculated 2Stage-least-square results are presented in the output Table \ref{tab:3OLS}. 
+\noindent 3. (a-c) Manully calculated 2Stage-least-square results are presented in the output Table \ref{tab:3OLS}. In the first column is presented regression results from part 3a, in the second column 3b and in the third one 3c. 
 
 \begin{table}[h]
     \centering
@@ -42,7 +42,11 @@
     \label{tab:3OLS}
 \end{table}
 
-\noindent 3.d In words, what are the different exclusion restrictions required for parts (a)-(c)? Does this seem reasonable for these instruments?
+\noindent 3.d. The instrumental variables should satisfy the following requirements: 
+1. The instrument must clearly affect the endogenous variable, in this case, 'mpg'. F-statistics from the first stage 
+2. \textbf{Exclusion restriction} - instrumental variable should be uncorrelated with any other determinants of the dependent variables. In other words, an instrument must have a unique channel for causal effect. In this case, instruments (weight, weight square, and height) should not be correlated with the variable 'car'. The only channel impacting the prices should be through 'mpg'.
+
+In words, what are the different exclusion restrictions required for parts (a)-(c)? Does this seem reasonable for these instruments?
 
 
 \noindent 3.e Compare and contrast the estimated coefficient on mpg from parts (a)-(c). What explains the discrepancies?
@@ -58,14 +62,15 @@ IV GMM results are presented in the Table \ref{tab:GMM}
     \label{tab:GMM}
 \end{table}
 
+\clearpage
 
 \section{Stata}
 
-\noindent 1. Use the ivregress liml command to compute the limited information maximum likelihood estimate using weight as the excluded instrument. Report your second-stage results in a nicely-formatted table using outreg2. Use heteroskedasticity-robust standard errors.
+\noindent 1. The limited information maximum likelihood estimates are presented in the Table \ref{tab:stataIV}
 
 \begin{table}[h]
     \centering
-    \input{ho}
+    \input{homework 5/output/table/hw5_output1_stata}
     \caption{IV estimate calculated using GMM}
     \label{tab:stataIV}
 \end{table}
