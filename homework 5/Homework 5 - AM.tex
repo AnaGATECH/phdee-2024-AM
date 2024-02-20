@@ -42,18 +42,18 @@
     \label{tab:3OLS}
 \end{table}
 
-\noindent 3.d. The instrumental variables should satisfy the following requirements: 
-1. The instrument must clearly affect the endogenous variable, in this case, 'mpg'. F-statistics from the first stage 
-2. \textbf{Exclusion restriction} - instrumental variable should be uncorrelated with any other determinants of the dependent variables. In other words, an instrument must have a unique channel for causal effect. In this case, instruments (weight, weight square, and height) should not be correlated with the variable 'car'. The only channel impacting the prices should be through 'mpg'.
+\noindent \textbf{3.d.} The instrumental variables should satisfy the following requirements: 
+
+1. The instrument must clearly affect the endogenous variable, in this case, 'mpg'. F-statistics from the first stage shows how strong the relationship between the instruments and the endogenous variable is. As we see from the Table \ref{tab:3OLS} the weight square has the higher F-statistic, suggesting a stronger relationship between mpg and the car's weight squared. The F-statistic is lower in the first stage, where height is used as an instrument. This suggests that height is likely correlated with the car variable, as it serves as an indicator of whether a car is a sedan or SUV. This violates the second condition - exclusion condition for height. 
+
+2. \textbf{Exclusion restriction} - an instrumental variable should be uncorrelated with any other determinants of the dependent variables. In other words, an instrument must have a unique channel for causal effect. In this case, instruments (weight, weight square, and height) should not be correlated with the variable 'car'. The only channel impacting the prices should be through 'mpg'.
 
 In words, what are the different exclusion restrictions required for parts (a)-(c)? Does this seem reasonable for these instruments?
 
 
-\noindent 3.e Compare and contrast the estimated coefficient on mpg from parts (a)-(c). What explains the discrepancies?
+\noindent \textbf{3.e }The coefficient for mpg in the third column is both insignificant and very large in magnitude, which is most likely caused by a violation of the exclusion restriction for the instrumental variable (IV) height. Coefficients when weight is included as IV in the first stage is significant. Also, using weight's quadratic form as an IV results in significant estimators with larger magnitude for the mpg coefficient. 
 
-\noindent 4. Calculate the IV estimate using GMM with weight as the excluded instrument. (Look for the Linearmodels function IVGMM). Report the estimated second-stage coefficient and standard error or confidence interval for mpg What factors account for the differences in the standard errors?
-
-IV GMM results are presented in the Table \ref{tab:GMM}
+\noindent 4. IV GMM results are presented in the Table \ref{tab:GMM}. The coefficient for mpg is the same as in the previous model, but the standard error is slightly larger. This difference might be a sign of a weak instrument.
 
 \begin{table}[h]
     \centering
@@ -66,7 +66,7 @@ IV GMM results are presented in the Table \ref{tab:GMM}
 
 \section{Stata}
 
-\noindent 1. The limited information maximum likelihood estimates are presented in the Table \ref{tab:stataIV}
+\noindent 1. The limited information maximum likelihood estimates are presented in the Table \ref{tab:stataIV}. The results are the same as those obtained from IV-GMM. 
 
 \begin{table}[h]
     \centering
@@ -76,7 +76,6 @@ IV GMM results are presented in the Table \ref{tab:GMM}
 \end{table}
 
 
-\noindent 2. Use weakivtest to estimate the Montiel-Olea-Pflueger effective F-statistic. What is the 5\% critical value, the F-statistic, and conclusion?
-
+\noindent 2. \textbf{'weakivtest'} tests the null hypothesis that instruments are weak or that the estimator’s Nagar bias is large relative to a benchmark for both two-stage least-squares estimation and limited-information maximum likelihood with one endogenous regressor.The Montiel-Olea-Pflueger effective F-statistic estimated using 'weakivtest' is 78.362 at 5\% confidence level. At 5\% confidence level, Two-Stage-Least-Squares (TSLS) is 37.418 and Limited Information Maximum Likelihood (LIML) is 37.418. Since F statistics is higher than TSLS and LIML, weakivtest rejects the null of weak instruments for TSLS or for LIML for a weak instrument threshold of $\tau$ = 5\%. 
 
 \end{document}
