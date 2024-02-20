@@ -25,17 +25,17 @@ from linearmodels import IVGMM
 
 #If working from home:
 
-#datapath = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 5\data'
-#outputpath = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 5\output'
-#figure = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 5\output\figure'
-#table = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 5\output\table'
+datapath = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 5\data'
+outputpath = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 5\output'
+figure = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 5\output\figure'
+table = r'C:\Users\Owner\Dropbox\phdee-2024-AM\homework 5\output\table'
 
 # If working on campus: 
 
-datapath = r'C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 5\data'
-outputpath = r'C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 5\output'
-figure = r'C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 5\output\figure'
-table = r'C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 5\output\table'
+#datapath = r'C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 5\data'
+#outputpath = r'C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 5\output'
+#figure = r'C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 5\output\figure'
+#table = r'C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 5\output\table'
 
 os.chdir(datapath)
 
@@ -74,6 +74,9 @@ fit_mpg3a = ols3a_1.fittedvalues.to_frame()
 fstat_a = ols3a_1.fvalue
 fstat_a = round(fstat_a, 2)
 print (fstat_a)
+fpval_a = ols3a_1.f_pvalue
+fpval_a = round(fpval_a,2)
+print (fpval_a)
 
 
 
@@ -108,6 +111,9 @@ fit_mpg3b = ols3b_1.fittedvalues.to_frame()
 fstat_b = ols3b_1.fvalue
 fstat_b = round(fstat_b, 2)
 print (fstat_b)
+fpval_b = ols3b_1.f_pvalue
+fpval_b = round(fpval_b,2)
+print (fpval_b)
 
 
 ## The Second Stage
@@ -131,6 +137,9 @@ fit_mpg3c = ols3c_1.fittedvalues.to_frame()
 fstat_c = ols3c_1.fvalue
 fstat_c = round(fstat_c, 2)
 print (fstat_c)
+fpval_c = ols3c_1.f_pvalue
+fpval_c = round(fpval_c,2)
+print (fpval_c)
 
 ## The Second Stage
 xvar3c_2 = pd.concat([data[['car']],fit_mpg3c], axis=1)
@@ -150,6 +159,7 @@ print(output)
 output.covariate_order(['fit_mpg','car'])
 output.rename_covariates({'fit_mpg':'Miles per gallon','car':'Car'})
 output.add_line('F-statistics from the 1st Stage',[fstat_a,fstat_b,fstat_c], LineLocation.FOOTER_TOP)
+output.add_line('F-stat p-value',[fpval_a,fpval_b,fpval_c], LineLocation.FOOTER_TOP)
 output.significant_digits(2)
 output.show_degrees_of_freedom(False)
 
