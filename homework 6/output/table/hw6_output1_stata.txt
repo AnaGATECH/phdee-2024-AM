@@ -1,5 +1,5 @@
 		(1)
-VARIABLES	LABELS	TWFE regression results on hourly data
+VARIABLES	LABELS	TWFE (Hourly)
 		
 treatment	Treatment	-0.0434***
 		(0.000232)

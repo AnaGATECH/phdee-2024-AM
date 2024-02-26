@@ -1,0 +1,18 @@
+		(1)
+VARIABLES	LABELS	TWFE (Daily)
+		
+treatment	(max) treatment	-0.936***
+		(0.00557)
+temperature	(mean) temperature	0.111***
+		(0.000379)
+precipitation	(mean) precipitation	0.0681
+		(0.188)
+relativehumidity	(mean) relativehumidity	0.0552***
+		(0.000189)
+Constant	Constant	12.88***
+		(0.0341)
+		
+Observations		30,000
+R-squared		0.972
+Robust standard errors in parentheses		
+*** p<0.01, ** p<0.05, * p<0.1		
