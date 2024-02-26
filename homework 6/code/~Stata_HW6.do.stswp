@@ -120,7 +120,11 @@ cd "`tablepath'"
 	local num_unique : word count `unique_values'
 	display "Number of unique values in the variable: " `num_unique'
 
-
+	la var treatment "Treatment"
+	la var temperature "Temperature (F)"
+	la var precipitation "Precipitation (in)"
+	la var relativehumidity "Relative Humidity (%)"
+					
 
 
 *** Question 1. ***
