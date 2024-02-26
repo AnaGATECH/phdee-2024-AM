@@ -1,0 +1,18 @@
+		(1)
+VARIABLES	LABELS	TWFE regression results on hourly data
+		
+treatment	Treatment	-0.0434***
+		(0.000232)
+temperature	Temperature (F)	0.00461***
+		(1.21e-05)
+precipitation	Precipitation (in)	-0.000644
+		(0.00200)
+relativehumidity	Relative Humidity (%)	0.00230***
+		(5.76e-06)
+Constant	Constant	0.539***
+		(0.00111)
+		
+Observations		720,000
+R-squared		0.664
+Robust standard errors in parentheses		
+*** p<0.01, ** p<0.05, * p<0.1		
