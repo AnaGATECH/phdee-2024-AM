@@ -40,6 +40,10 @@ cd "`datapath'"
 	sort day_time
 	egen hour=seq(), by(id)
 	
+	levelsof treated, local(unique_values)
+	local num_unique : word count `unique_values'
+	display "Number of unique values in the variable: " `num_unique'
+	
 
 	
 *** Question 2. ***
@@ -61,9 +65,9 @@ cd "`tablepath'"
 	
 	estimates store model1
 	
-	outreg2 [model1 ] using hw6_output1_stata.tex, tex(frag) replace label ctitle("TWFE regression results on hourly data")
+	outreg2 [model1 ] using hw6_output1_stata.tex, tex(frag) replace label ctitle("TWFE")
 	
 
 	
 * Save hourly data
-	save "energy_staggered_hr", replace
+*save "energy_staggered_hr", replace
