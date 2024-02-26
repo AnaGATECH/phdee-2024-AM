@@ -66,4 +66,4 @@ cd "`tablepath'"
 
 	
 * Save hourly data
-	save "energy_staggered_hr", replace
+*save "energy_staggered_hr", replace
