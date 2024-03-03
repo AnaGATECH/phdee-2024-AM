@@ -24,7 +24,7 @@
 
 \noindent 2. The number of negative weights is  48,547.
 
-\noindent 3. The TWFE regression results on hourly data are presented in the Table \ref{tab:TWFE}
+\noindent 3. The TWFE regression results on hourly data are presented in the Table \ref{tab:TWFE}. I clustered on ID level because the function 'reghdfe' allows to obtain multi-way clustered standard errors, so we can account for multiple dimensions of clustering. 
 
 \begin{table}[h]
     \centering
@@ -37,7 +37,8 @@
 
 \section{Daily data - Stata}
 
-\noindent 1. The TWFE regression results on daily data are presented in the Table \ref{tab:TWFEdaily}
+\noindent 1. The TWFE regression results on daily data are presented in the Table \ref{tab:TWFEdaily}. We need to transform the coefficient obtained from hourly data to make it comparable with the daily coefficient. $-0.0434 * 24 = -1.1856$, which is higher than the coefficient from daily energy consumption data. This might be caused by losing hourly trends of energy consumption in the daily dataset. 
+
 
 \begin{table}[h]
     \centering
@@ -46,19 +47,38 @@
     \label{tab:TWFEdaily}
 \end{table}
 
-\noindent 2. NOTE: I used Afi's code. I tried to plot event study using 'coefplot' as you suggested but the graph was very unclear!
+\clearpage
+
+\noindent 2. \textbf{NOTE: }I used Afi's code for this section. I tried to plot event study using 'coefplot' as you suggested but the graph was very unclear. I will come back to this function again to understand. 
+
+The event study is presented on the Figure \ref{fig:eventstudy1}
 
 \begin{figure}
     \centering
-    \includegraphics{}
+    \includegraphics{homework 6/output/figure/event_study.pdf}
     \caption{Event Study  Using 'reghdfe'}
     \label{fig:eventstudy1}
-\end{figure}[h]
-
-\noindent 3. 
-
-\noindent 4.
+\end{figure}
 
 
+\clearpage
+
+\noindent 3. The event study using the command "eventdd" is presented on the Figure \ref{fig:eventstudy2}
+
+\begin{figure}
+    \centering
+    \includegraphics{homework 6/output/figure/event_study_1.pdf}
+    \caption{Event Study  Using 'eventdd'}
+    \label{fig:eventstudy2}
+\end{figure}
+
+\noindent 4.The event study using the command "ecsdid" is presented on the Figure \ref{fig:eventstudy3}
+
+\begin{figure}
+    \centering
+    \includegraphics{homework 6/output/figure/event_study_csdid.pdf}
+    \caption{Event Study  Using 'csdid'}
+    \label{fig:eventstudy3}
+\end{figure}
 
 \end{document}
