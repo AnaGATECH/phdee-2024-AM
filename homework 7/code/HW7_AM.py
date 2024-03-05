@@ -232,6 +232,6 @@ output1.significant_digits(2)
 output1.show_degrees_of_freedom(False)
 
 tex_file = open('2SLS.tex', "w" ) 
-tex_file.write( output.render_latex(only_tabular=True) )
+tex_file.write( output1.render_latex(only_tabular=True) )
 tex_file.close()
 
