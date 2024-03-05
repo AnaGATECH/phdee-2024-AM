@@ -226,7 +226,7 @@ second_stage=second_stage.get_robustcov_results(cov_type='HC1')
 
 output1 = stargazer([second_stage])
 
-output1.rename_covariates({'mpg_hat':' Miles per gallon', 'car':'Car'})
+output1.rename_covariates({'mpg_hat':'ATE', 'car':'Car'})
 output1.show_stars=True
 output1.significant_digits(2)
 output1.show_degrees_of_freedom(False)
