@@ -1,0 +1,14 @@
+		(1)
+VARIABLES	LABELS	Average treatment effect from the second-stage regression results
+		
+mpg_fitted	ATE	157.5***
+		(26.73)
+car	car	-3,671***
+		(224.1)
+Constant	Constant	17,403***
+		(775.0)
+		
+Observations		1,000
+R-squared		0.221
+Robust standard errors in parentheses		
+*** p<0.01, ** p<0.05, * p<0.1		
