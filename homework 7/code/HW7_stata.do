@@ -45,4 +45,4 @@ import delimited "instrumentalvehicles.csv", clear
 	estimates store model
 	
 	outreg2 [model ] using hw7_stata.tex, tex(frag) replace label ctitle("Average treatment effect from the second-stage regression results")
-	
+
