@@ -20,11 +20,7 @@
 \maketitle
 
 \section{Stata}
-\noindent 1. 
-\\
-
-\noindent 2-5. 
-
+\noindent 1.a.  Report the coefficient estimate and heteroskedasticity-robust standard error (.0013609) on treatment
 
 \begin{table}[h]
     \centering
@@ -32,8 +28,9 @@
     \caption{Estimate equation 1}
     \label{tab:reg1}
 \end{table}
-\clearpage
 
+\noindent 1.b. The coefficient estimate and heteroskedasticity-robust standard error  (.0010042) estimated using the command teffects nnmatch are presented in   
+The treatment effect on $ log(MW_{i,t})$ using the Mahalanobis distance norm and one nearest neighbor is 
 
 \begin{table}[h]
     \centering
@@ -42,6 +39,31 @@
     \label{tab:match}
 \end{table}
 \clearpage
+
+\noindent 1.c. What issues do you think there are with these approaches?
+
+\noindent 2.a.  The coefficient estimate and heteroskedasticity-robust standard error (.0027058) on $treatment_t$ is 
+
+\begin{table}[h]
+    \centering
+    \input{homework 8/output/table/output3}
+    \caption{Regression with year indicator}
+    \label{tab:reg2}
+\end{table}
+
+\noindent 2.b. How does this attempt to address the shortcoming in 1(c)?
+
+\noindent 3.a. Using the command teffects nnmatch, match electricity consumption in 2020 to electricity consumption in 2019 using the most similar hour as defined by the Mahalanobis distance norm. The output variable in this regression is the difference between  $log(MW_{i,t})$ and $Y_{i,t}$ the matched log electricity consumption.  ( .0010788)
+
+\begin{table}[h]
+    \centering
+    \input{homework 8/output/table/output4}
+    \caption{Two year matched regression}
+    \label{tab:reg3}
+\end{table}
+
+\noindent 3.b. Why might you not trust the standard errors for the coefficient estimate from 3(a)?
+
 
 
 \end{document}
