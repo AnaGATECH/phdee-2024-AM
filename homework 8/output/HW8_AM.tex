@@ -20,50 +20,21 @@
 \maketitle
 
 \section{Stata}
-\noindent 1.a.  Report the coefficient estimate and heteroskedasticity-robust standard error (.0013609) on treatment
-
-\begin{table}[h]
-    \centering
-    \input{homework 8/output/table/output1}
-    \caption{Estimate equation 1}
-    \label{tab:reg1}
-\end{table}
-
-\noindent 1.b. The coefficient estimate and heteroskedasticity-robust standard error  (.0010042) estimated using the command teffects nnmatch are presented in   
-The treatment effect on $ log(MW_{i,t})$ using the Mahalanobis distance norm and one nearest neighbor is 
-
-\begin{table}[h]
-    \centering
-    \input{homework 8/output/table/output2}
-    \caption{Matching}
-    \label{tab:match}
-\end{table}
-\clearpage
-
-\noindent 1.c. What issues do you think there are with these approaches?
-
-\noindent 2.a.  The coefficient estimate and heteroskedasticity-robust standard error (.0027058) on $treatment_t$ is 
-
-\begin{table}[h]
-    \centering
-    \input{homework 8/output/table/output3}
-    \caption{Regression with year indicator}
-    \label{tab:reg2}
-\end{table}
-
-\noindent 2.b. How does this attempt to address the shortcoming in 1(c)?
-
-\noindent 3.a. Using the command teffects nnmatch, match electricity consumption in 2020 to electricity consumption in 2019 using the most similar hour as defined by the Mahalanobis distance norm. The output variable in this regression is the difference between  $log(MW_{i,t})$ and $Y_{i,t}$ the matched log electricity consumption.  ( .0010788)
-
-\begin{table}[h]
-    \centering
-    \input{homework 8/output/table/output4}
-    \caption{Two year matched regression}
-    \label{tab:reg3}
-\end{table}
-
-\noindent 3.b. Why might you not trust the standard errors for the coefficient estimate from 3(a)?
+\noindent 1.a.  I used $ivreghdfe$ command with $robust$ to estimate the coefficient (-0.0656), which is statistically significant and heteroskedasticity-robust standard error (.0013609) on $treatment_t$. So, the results show that the pandemic caused 6.56\% percent decrease of electricity consumption. 
 
 
+\noindent 1.b. After matching, the coefficient estimate became -0.0704 and heteroskedasticity-robust standard error (.0010042). So, now the results show that the pandemic caused almost 7\% percent decrease of electricity consumption. 
+
+
+\noindent 1.c. Because our data has high frequency and we are matching on two variables, temperature and precipitation, we might face high dimensionality problem. I was expecting that people would use more electricity after Covid because they started working, studying from home, also they cooked more. In my opinion the results are not convincing. For this regression we excluded two months data and were matching more granular level than in part 2. 
+
+\noindent 2.a.  After adding year indicator, the coefficient estimate became positive 0.0236 and heteroskedasticity-robust standard error is .0027058 on $treatment_t$. 
+
+
+\noindent 2.b. After using year FE, I obtained the results that I was expected. Namely, the results refer to the increase in electricity consumption due to Covid. We included more observations and control for year trends.  
+
+\noindent 3.a. The output variable in this regression is the difference between  $log(MW_{i,t})$ and $Y_{i,t}$ the matched log electricity consumption. The magnitude of the coefficient estimate is lower compared to the results obtained in part 1 and negative refer to the decrease of electricity consumption after the pandemic by 5.47\% and then standard error is .0010788. 
+
+\noindent 3.b. We can't rely on standard error because in the estimated equation the error term is composed by the error terms from the original and matched equations. The difference in the outcome variable will be strongly influenced by the error—even for a mean zero error. Also, here we used only two years data which migth bias results as well. 
 
 \end{document}
