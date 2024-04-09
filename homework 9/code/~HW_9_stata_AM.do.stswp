@@ -154,12 +154,13 @@ ssc install synth, replace all
 			recyclingrate(2000) recyclingrate(2001) democratvoteshare2000(2000) collegedegree2000(2000) ///
 			nonwhite incomepercapita, trunit(27) trperiod(2002) mspeperiod(1998(1)2001) gen_vars
 
-	single_treatment_graphs, treated_name(NYC) trlinediff(-0.5) effects_ylabels(-.4(.1).5) do_color(gs13) raw_options(scale(1.4) xlabel(1997(2)2008, nogrid) xmtick(1997(1)2008) xtitle(Year) legend(pos(7) ring(0) region(style(none))) xline(2004.5) title("Synthetic control raw outcomes:") subtitle("Recycling rate")) effects_options(scale(1.6) xlabel(1997(2)2008, nogrid) xmtick(1997(1)2008) xtitle(Year) ytitle("") legend(pos(7) ring(0) region(style(none))) xline(2004.5) title(Synthetic control effects and placebos) subtitle("Coefficient estimates"))
+*single_treatment_graphs, treated_name(NYC) trlinediff(-0.5) effects_ylabels(-.4(.1).5) do_color(gs13) raw_options(scale(1.4) xlabel(1997(2)2008, nogrid) xmtick(1997(1)2008) xtitle(Year) legend(pos(7) ring(0) region(style(none))) xline(2004.5) title("Synthetic control raw outcomes:") subtitle("Recycling rate")) effects_options(scale(1.6) xlabel(1997(2)2008, nogrid) xmtick(1997(1)2008) xtitle(Year) ytitle("") legend(pos(7) ring(0) region(style(none))) xline(2004.5) title(Synthetic control effects and placebos) subtitle("Coefficient estimates"))
 
 	effect_graphs, treated_name(NYC) trlinediff(-0.5) tc_options(scale(1.4) xlabel(1997(2)2008, nogrid) xmtick(1997(1)2008) ylabel(,nogrid) xtitle(Year) legend(pos(7) ring(0) region(style(none))) xline(2004.5) title(NYC and synthetic control) subtitle(Recycling rate)) effect_options(xlabel(1997(2)2008, nogrid) xmtick(1997(1)2008) ylabel(, nogrid) xtitle(Year) legend(pos(7) ring(0) region(style(none))) xline(2004.5) title(Synthetic control) subtitle("Coefficient estimates") yline(0) )
 	
-	graph export scrawoutcomes.pdf, name(raw) replace
-	graph export scplacebos.pdf, name(effects) replace
-	graph export scestimates.pdf, name(effect) replace
-	graph export sctreatcontrol.pdf, name(tc) replace
+	
+	graph export scrawoutcomes.pdf, replace
+	graph export scplacebos.pdf, replace
+	graph export scestimates.pdf, replace
+	graph export sctreatcontrol.pdf, replace
 
