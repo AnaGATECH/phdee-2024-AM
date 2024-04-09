@@ -173,7 +173,7 @@ ssc install synth, replace all
 
 	effect_graphs, treated_name(NYC) trlinediff(-0.5) tc_options(scale(1.4) xlabel(1997(2)2008, nogrid) xmtick(1997(1)2008) ylabel(,nogrid) xtitle(Year) legend(pos(7) ring(0) region(style(none))) xline(2004.5) title(NYC and synthetic control) subtitle(Recycling rate)) effect_options(xlabel(1997(2)2008, nogrid) xmtick(1997(1)2008) ylabel(, nogrid) xtitle(Year) legend(pos(7) ring(0) region(style(none))) xline(2004.5) title(Synthetic control) subtitle("Coefficient estimates") yline(0))
 	
-	graph export scrawoutcomes.pdf, replace
-	graph export scplacebos.pdf, replace
-	graph export scestimates.pdf, replace
-	graph export sctreatcontrol.pdf, replace
+	graph export "raw.pdf", name(raw) replace
+	graph export "placebo.pdf", name(effects) replace
+	graph export "effect.pdf", name(effect) replace
+	graph export "treatmentcontrol.pdf", name(tc) replace
