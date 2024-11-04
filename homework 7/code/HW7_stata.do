@@ -10,6 +10,8 @@ clear all
 
 set more off
 
+global path ""
+
 local datapath "C:\Users\Owner\Dropbox\phdee-2024-AM\homework 7\data"
 
 *local datapath "C:\Users\amazmishvili3\Dropbox\phdee-2024-AM\homework 6\data"

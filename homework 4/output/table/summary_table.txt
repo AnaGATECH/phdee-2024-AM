@@ -1,0 +1,221 @@
+		(1)	(2)	(3)
+		Model1	Model2	Model3
+VARIABLES	LABELS	Pounds of bycatch	dem_bycatch	dem_bycatch
+				
+treat	Treatment	-8,085.142***		
+		(2,619.209)		
+shrimp	Pounds of shrimp	1.552***		
+		(0.178)		
+salmon	Pounds of salmon	-0.680		
+		(1.125)		
+firmsize	Size of fishing fleet	12,095.259		
+		(15,348.599)		
+firm_1	firm_1	17,202.785		
+		(16,370.125)		
+firm_2	firm_2	5,845.374		
+		(4,639.444)		
+firm_3	firm_3	3,874.240*		
+		(2,205.395)		
+firm_4	firm_4	8,022.031*		
+		(4,402.824)		
+firm_5	firm_5	45,743.620**		
+		(21,712.512)		
+firm_6	firm_6	27,248.687**		
+		(11,615.800)		
+firm_7	firm_7	3,213.956*		
+		(1,900.556)		
+firm_8	firm_8	25,521.367*		
+		(14,783.002)		
+firm_9	firm_9	19,872.625*		
+		(10,484.324)		
+firm_10	firm_10	29,430.429**		
+		(13,256.744)		
+firm_11	firm_11	11,173.624**		
+		(4,782.430)		
+firm_12	firm_12	12,027.025***		
+		(3,405.720)		
+firm_13	firm_13	25,064.872		
+		(17,161.567)		
+firm_14	firm_14	12,544.232**		
+		(5,839.736)		
+firm_15	firm_15	24,354.708**		
+		(10,565.762)		
+firm_16	firm_16	16,914.390**		
+		(6,840.047)		
+firm_17	firm_17	20,369.943		
+		(12,664.102)		
+firm_18	firm_18	141.969		
+		(289.608)		
+firm_19	firm_19	13,397.772		
+		(8,197.387)		
+o.firm_20	firm_20 = o,	-		
+				
+firm_21	firm_21	2,319.242**		
+		(1,109.611)		
+firm_22	firm_22	13,129.570		
+		(7,852.777)		
+firm_23	firm_23	12,248.549*		
+		(6,397.504)		
+firm_24	firm_24	40,283.252*		
+		(22,271.702)		
+firm_25	firm_25	49,552.030**		
+		(23,801.791)		
+firm_26	firm_26	9,962.996*		
+		(5,688.956)		
+firm_27	firm_27	-3,540.421		
+		(12,317.787)		
+firm_28	firm_28	3,739.985		
+		(6,090.465)		
+firm_29	firm_29	28,365.492*		
+		(15,080.522)		
+firm_30	firm_30	-3,340.962**		
+		(1,380.346)		
+firm_31	firm_31	10,826.980		
+		(12,379.879)		
+firm_32	firm_32	15,503.813**		
+		(6,975.557)		
+firm_33	firm_33	25,335.668**		
+		(10,973.653)		
+firm_34	firm_34	15,446.436***		
+		(5,743.208)		
+firm_35	firm_35	7,491.301		
+		(7,985.572)		
+firm_36	firm_36	5,547.023**		
+		(2,619.039)		
+firm_37	firm_37	1,382.772		
+		(9,166.051)		
+firm_38	firm_38	6,393.179		
+		(9,392.822)		
+firm_39	firm_39	-194.524		
+		(1,537.631)		
+firm_40	firm_40	42,537.196**		
+		(19,534.517)		
+firm_41	firm_41	15,768.613		
+		(12,826.599)		
+firm_42	firm_42	7,349.804**		
+		(3,404.218)		
+firm_43	firm_43	33,594.372**		
+		(16,433.973)		
+o.firm_44	firm_44 = o,	-		
+				
+firm_45	firm_45	8,617.093		
+		(8,440.563)		
+firm_46	firm_46	14,544.000		
+		(9,176.761)		
+firm_47	firm_47	1,983.778		
+		(1,408.556)		
+firm_48	firm_48	4,276.460		
+		(4,184.255)		
+firm_49	firm_49	6,881.792**		
+		(2,711.771)		
+firm_50	firm_50	9,308.558*		
+		(4,910.998)		
+month_1	month_1	-997.253		
+		(2,160.166)		
+month_2	month_2	-809.507		
+		(2,062.952)		
+month_3	month_3	-811.587		
+		(1,974.262)		
+month_4	month_4	-560.977		
+		(1,836.678)		
+month_5	month_5	-280.863		
+		(1,688.819)		
+month_6	month_6	-190.175		
+		(1,498.609)		
+month_7	month_7	117.510		
+		(1,453.709)		
+month_8	month_8	316.391		
+		(1,218.046)		
+month_9	month_9	427.604		
+		(1,130.680)		
+month_10	month_10	-42.534		
+		(1,179.410)		
+month_11	month_11	-30.521		
+		(984.142)		
+month_12	month_12	-49.384		
+		(1,019.008)		
+month_13	month_13	-42.713		
+		(924.802)		
+month_14	month_14	-164.325		
+		(874.112)		
+month_15	month_15	-194.827		
+		(820.600)		
+month_16	month_16	-197.661		
+		(783.506)		
+month_17	month_17	-354.177		
+		(751.317)		
+month_18	month_18	182.479		
+		(598.210)		
+month_19	month_19	88.810		
+		(539.244)		
+month_20	month_20	121.575		
+		(453.428)		
+month_21	month_21	212.068		
+		(351.457)		
+month_22	month_22	78.193		
+		(255.357)		
+o.month_23	month_23 = o,	-		
+				
+month_24	month_24	-69.769		
+		(279.631)		
+dem_treat	Treatment		-8,085.142***	-8,149.060***
+			(2,563.919)	(2,489.017)
+dem_shrimp	dem_shrimp		1.552***	1.537***
+			(0.175)	(0.179)
+dem_salmon	dem_salmon		-0.680	-0.428
+			(1.101)	(0.598)
+o.dem_month_1	dem_month_1 = o,		-	
+				
+dem_month_2	dem_month_2		187.746	
+			(255.266)	
+dem_month_3	dem_month_3		185.666	
+			(293.175)	
+dem_month_4	dem_month_4		436.275	
+			(468.894)	
+dem_month_5	dem_month_5		716.390	
+			(547.697)	
+dem_month_6	dem_month_6		807.077	
+			(718.686)	
+dem_month_7	dem_month_7		1,114.763	
+			(792.069)	
+dem_month_8	dem_month_8		1,313.644	
+			(1,006.199)	
+dem_month_9	dem_month_9		1,424.857	
+			(1,093.820)	
+dem_month_10	dem_month_10		954.719	
+			(1,030.554)	
+dem_month_11	dem_month_11		966.732	
+			(1,205.688)	
+dem_month_12	dem_month_12		947.869	
+			(1,175.221)	
+dem_month_13	dem_month_13		954.540	
+			(1,279.175)	
+dem_month_14	dem_month_14		832.928	
+			(1,319.580)	
+dem_month_15	dem_month_15		802.426	
+			(1,382.802)	
+dem_month_16	dem_month_16		799.592	
+			(1,430.805)	
+dem_month_17	dem_month_17		643.076	
+			(1,442.626)	
+dem_month_18	dem_month_18		1,179.732	
+			(1,620.217)	
+dem_month_19	dem_month_19		1,086.062	
+			(1,665.004)	
+dem_month_20	dem_month_20		1,118.827	
+			(1,775.152)	
+dem_month_21	dem_month_21		1,209.321	
+			(1,892.454)	
+dem_month_22	dem_month_22		1,075.445	
+			(2,096.628)	
+dem_month_23	dem_month_23		997.253	
+			(2,114.566)	
+dem_month_24	dem_month_24		927.484	
+			(2,007.049)	
+Constant	Constant	1,980.597	-0.000	-0.000
+		(1,438.360)	(0.001)	(0.001)
+				
+Observations		1,200	1,200	1,200
+R-squared		0.996	0.428	0.426
+Robust standard errors in parentheses				
+*** p<0.01, ** p<0.05, * p<0.1				

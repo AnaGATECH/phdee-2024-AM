@@ -1,0 +1,16 @@
+		(1)
+VARIABLES	LABELS	dem_bycatch
+		
+dem_treat	Treatment	-8,149***
+		(2,489)
+dem_shrimp	dem_shrimp	1.537***
+		(0.179)
+dem_salmon	dem_salmon	-0.428
+		(0.598)
+Constant	Constant	-0.000222
+		(0.000901)
+		
+Observations		1,200
+R-squared		0.426
+Robust standard errors in parentheses		
+*** p<0.01, ** p<0.05, * p<0.1		
